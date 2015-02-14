@@ -35,6 +35,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'carriage_type',
             'brutto_weight',
             [
+                'label' => 'Детали',
+                'value' => $model->getWeight()
+            ],
+            [
+                'label' => 'Лом',
+                'value' => $model->brutto_weight - $model->getWeight()
+            ],
+            [
                 'label' => 'status',
                 'value' => CarriageStatus::getLabelByStatusId($model->status)
             ],
@@ -44,14 +52,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('//wheel-set/_index', [
         'models' => $model->getWheelsets()->all(),
+        'weight' => $model->getWheelsetsWeight()
     ]) ?>
 
     <?= $this->render('//side-frame/_index', [
         'models' => $model->getSideFrames()->all(),
+        'weight' => $model->getSideFramesWeight()
     ]) ?>
 
     <?= $this->render('//bolster/_index', [
         'models' => $model->getBolsters()->all(),
+        'weight' => $model->getBolstersWeight()
     ]) ?>
 
 </div>

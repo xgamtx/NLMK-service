@@ -91,4 +91,32 @@ class Carriage extends ActiveRecord
     public function getName() {
         return 'Вагон №' . $this->id;
     }
+
+    public function getWheelsetsWeight() {
+        $weight = 0;
+        foreach ($this->wheelsets as $wheelset) {
+            $weight += $wheelset->getWeight();
+        }
+        return $weight;
+    }
+
+    public function getSideFramesWeight() {
+        $weight = 0;
+        foreach ($this->sideFrames as $sideFrame) {
+            $weight += $sideFrame->getWeight();
+        }
+        return $weight;
+    }
+
+    public function getBolstersWeight() {
+        $weight = 0;
+        foreach ($this->bolsters as $bolster) {
+            $weight += $bolster->getWeight();
+        }
+        return $weight;
+    }
+
+    public function getWeight() {
+        return $this->getBolstersWeight() + $this->getWheelsetsWeight() + $this->getSideFramesWeight();
+    }
 }

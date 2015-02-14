@@ -2,6 +2,7 @@
 
 /* @var $this yii\web\View */
 /* @var $models app\models\WheelSet[] */
+/* @var $weight float */
 
 ?>
 
@@ -26,7 +27,7 @@
                 <td><a href="#<?=$model->id?>">Ссылка</a></td>
                 <td><?=$model->produced_year?></td>
                 <td><?=$model->factory?></td>
-                <td></td>
+                <td><?=$model->mass?></td>
             </tr>
         <?endforeach;?>
         </tbody>
@@ -37,7 +38,7 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>общая масса</td>
+            <td><?=$weight?></td>
         </tr>
         </tfoot>
     </table>

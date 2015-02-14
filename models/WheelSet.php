@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\models\WeightRetriever\WheelSetWeightRetriever;
 use Yii;
 use yii\db\ActiveRecord;
 
@@ -14,6 +15,7 @@ use yii\db\ActiveRecord;
  * @property integer $factory
  * @property integer $right_wheel_width
  * @property integer $left_wheel_width
+ * @property float $mass
  * @property integer $carriage_id
  *
  * @property Carriage $carriage
@@ -35,7 +37,8 @@ class WheelSet extends ActiveRecord
     {
         return [
             [['id'], 'required'],
-            [['id', 'real_id', 'produced_year', 'factory', 'right_wheel_width', 'left_wheel_width', 'carriage_id'], 'integer']
+            [['id', 'real_id', 'produced_year', 'factory', 'right_wheel_width', 'left_wheel_width', 'carriage_id'], 'integer'],
+            [['mass'], 'double']
         ];
     }
 
@@ -52,6 +55,7 @@ class WheelSet extends ActiveRecord
             'right_wheel_width' => 'Толщина правого обода колес',
             'left_wheel_width' => 'Толщина правого обода колес',
             'carriage_id' => 'Номер вагона',
+            'mass' => 'Масса',
         ];
     }
 
@@ -66,4 +70,14 @@ class WheelSet extends ActiveRecord
     public static function getName() {
         return 'Колесная пара';
     }
+
+    public function beforeSave($insert) {
+        $this->mass = $this->getWeight();
+        return parent::beforeSave($insert);
+    }
+
+    public function getWeight() {
+        return WheelSetWeightRetriever::getWeightWheelSet($this);
+    }
+
 }
