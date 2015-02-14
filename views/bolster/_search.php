@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\WheelSetSearch */
+/* @var $model app\models\Search\BolsterSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="wheel-set-search">
+<div class="bolster-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -17,17 +17,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'resl_id') ?>
-
     <?= $form->field($model, 'produced_year') ?>
 
     <?= $form->field($model, 'factory') ?>
 
-    <?= $form->field($model, 'right_wheel_width') ?>
+    <?= $form->field($model, 'carriage_id') ?>
 
-    <?= $form->field($model, 'left_wheel_width') ?>
-
-    <?php // echo $form->field($model, 'carriage_id') ?>
+    <?= $form->field($model, 'real_id') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

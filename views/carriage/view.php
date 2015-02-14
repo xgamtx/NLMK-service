@@ -50,4 +50,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'models' => $model->getSideFrames()->all(),
     ]) ?>
 
+    <?= $this->render('//bolster/_index', [
+        'models' => $model->getBolsters()->all(),
+    ]) ?>
+
 </div>
