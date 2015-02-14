@@ -14,6 +14,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id')->textInput() ?>
 
+    <?= $form->field($model, 'real_id')->textInput() ?>
+
     <?= $form->field($model, 'produced_year')->textInput() ?>
 
     <?= $form->field($model, 'factory')->textInput() ?>
@@ -21,10 +23,6 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'right_wheel_width')->textInput() ?>
 
     <?= $form->field($model, 'left_wheel_width')->textInput() ?>
-
-    <?= $form->field($model, 'real_produced_year')->textInput() ?>
-
-    <?= $form->field($model, 'real_factory')->textInput() ?>
 
     <?= $form->field($model, 'carriage_id')->textInput() ?>
 

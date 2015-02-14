@@ -87,4 +87,8 @@ class Carriage extends ActiveRecord
     {
         return $this->hasMany(Wheelset::className(), ['carriage_id' => 'id']);
     }
+
+    public function getName() {
+        return 'Вагон №' . $this->id;
+    }
 }

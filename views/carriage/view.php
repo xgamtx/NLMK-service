@@ -3,12 +3,14 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\models\CarriageStatus;
+use yii\grid\GridView;
+use yii\data\ActiveDataProvider;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Carriage */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Carriages', 'url' => ['index']];
+$this->title = $model->getName();
+$this->params['breadcrumbs'][] = ['label' => 'Список вагонов', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="carriage-view">
@@ -39,4 +41,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'storage'
         ],
     ]) ?>
+
+    <?= $this->render('//wheel-set/_index', [
+        'models' => $model->getWheelsets()->all(),
+    ]) ?>
+
 </div>

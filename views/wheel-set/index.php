@@ -30,8 +30,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'factory',
             'right_wheel_width',
             'left_wheel_width',
-            // 'real_produced_year',
-            // 'real_factory',
             // 'carriage_id',
 
             ['class' => 'yii\grid\ActionColumn'],
