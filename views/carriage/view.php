@@ -46,4 +46,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'models' => $model->getWheelsets()->all(),
     ]) ?>
 
+    <?= $this->render('//side-frame/_index', [
+        'models' => $model->getSideFrames()->all(),
+    ]) ?>
+
 </div>
