@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\models\CarriageStatus;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Carriage */
@@ -31,7 +32,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'carriage_type',
             'brutto_weight',
-            'status',
+            [
+                'label' => 'status',
+                'value' => CarriageStatus::getLabelByStatusId($model->status)
+            ]
         ],
     ]) ?>
 </div>

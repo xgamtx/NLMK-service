@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\models\Carriage;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CarriageSearch */
@@ -28,9 +29,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'carriage_type',
             'brutto_weight',
-            'status',
+            [
+                'label' => 'status',
+                'format' => 'text',
+                'value' => function(Carriage $model) { return \app\models\CarriageStatus::getLabelByStatusId($model->status);}
+            ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+//            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 
