@@ -18,7 +18,7 @@ class WheelSetSearch extends WheelSet
     public function rules()
     {
         return [
-            [['id', 'produced_year', 'factory', 'right_wheel_width', 'left_wheel_width', 'real_produced_year', 'real_factory', 'carriage_id'], 'integer'],
+            [['id', 'real_id', 'produced_year', 'factory', 'right_wheel_width', 'left_wheel_width', 'carriage_id'], 'integer'],
         ];
     }
 
@@ -56,12 +56,11 @@ class WheelSetSearch extends WheelSet
 
         $query->andFilterWhere([
             'id' => $this->id,
+            'real_id' => $this->real_id,
             'produced_year' => $this->produced_year,
             'factory' => $this->factory,
             'right_wheel_width' => $this->right_wheel_width,
             'left_wheel_width' => $this->left_wheel_width,
-            'real_produced_year' => $this->real_produced_year,
-            'real_factory' => $this->real_factory,
             'carriage_id' => $this->carriage_id,
         ]);
 
