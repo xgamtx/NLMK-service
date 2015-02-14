@@ -3,8 +3,6 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\models\CarriageStatus;
-use yii\grid\GridView;
-use yii\data\ActiveDataProvider;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Carriage */
@@ -51,17 +49,17 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
 
     <?= $this->render('//wheel-set/_index', [
-        'models' => $model->getWheelsets()->all(),
+        'models' => $model->wheelsets,
         'weight' => $model->getWheelsetsWeight()
     ]) ?>
 
     <?= $this->render('//side-frame/_index', [
-        'models' => $model->getSideFrames()->all(),
+        'models' => $model->sideFrames,
         'weight' => $model->getSideFramesWeight()
     ]) ?>
 
     <?= $this->render('//bolster/_index', [
-        'models' => $model->getBolsters()->all(),
+        'models' => $model->bolsters,
         'weight' => $model->getBolstersWeight()
     ]) ?>
 

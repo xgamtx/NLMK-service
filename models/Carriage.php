@@ -13,14 +13,25 @@ use yii\db\ActiveRecord;
  * @property double $brutto_weight
  * @property integer $status
  * @property string $storage
+ * @property float $full_weight
+ * @property float $wheelset_weight
+ * @property float $sideFrame_weight
+ * @property float $bolster_weight
  *
  * @property Bolster[] $bolsters
  * @property Comment[] $comments
  * @property SideFrame[] $sideFrames
  * @property Wheelset[] $wheelsets
+ * @property Warehouse $warehouse
  */
 class Carriage extends ActiveRecord
 {
+
+    protected $full_weight;
+    protected $wheelset_weight;
+    protected $sideFrame_weight;
+    protected $bolster_weight;
+
     /**
      * @inheritdoc
      */
@@ -52,7 +63,8 @@ class Carriage extends ActiveRecord
             'carriage_type' => 'Тип вагона',
             'brutto_weight' => 'Тара',
             'status' => 'Статус',
-            'storage' => 'ПЗУ'
+            'storage' => 'ПЗУ',
+            'warehouse' => 'Склад'
         ];
     }
 
@@ -88,35 +100,53 @@ class Carriage extends ActiveRecord
         return $this->hasMany(Wheelset::className(), ['carriage_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getWarehouse()
+    {
+        return $this->hasOne(Warehouse::className(), ['id' => 'warehouse_id']);
+    }
+
     public function getName() {
         return 'Вагон №' . $this->id;
     }
 
     public function getWheelsetsWeight() {
-        $weight = 0;
-        foreach ($this->wheelsets as $wheelset) {
-            $weight += $wheelset->getWeight();
+        if (empty($this->wheelset_weight)) {
+            $this->wheelset_weight = 0;
+            foreach ($this->wheelsets as $wheelset) {
+                $this->wheelset_weight += $wheelset->getWeight();
+            }
         }
-        return $weight;
+
+        return $this->wheelset_weight;
     }
 
     public function getSideFramesWeight() {
-        $weight = 0;
-        foreach ($this->sideFrames as $sideFrame) {
-            $weight += $sideFrame->getWeight();
+        if (empty($this->sideFrame_weight)) {
+            $this->sideFrame_weight = 0;
+            foreach ($this->sideFrames as $sideFrame) {
+                $this->sideFrame_weight += $sideFrame->getWeight();
+            }
         }
-        return $weight;
+        return $this->sideFrame_weight;
     }
 
     public function getBolstersWeight() {
-        $weight = 0;
-        foreach ($this->bolsters as $bolster) {
-            $weight += $bolster->getWeight();
+        if (empty($this->bolster_weight)) {
+            $this->bolster_weight = 0;
+            foreach ($this->bolsters as $bolster) {
+                $this->bolster_weight += $bolster->getWeight();
+            }
         }
-        return $weight;
+        return $this->bolster_weight;
     }
 
     public function getWeight() {
-        return $this->getBolstersWeight() + $this->getWheelsetsWeight() + $this->getSideFramesWeight();
+        if (empty($this->full_weight)) {
+            $this->full_weight = $this->getBolstersWeight() + $this->getWheelsetsWeight() + $this->getSideFramesWeight();
+        }
+        return $this->full_weight;
     }
 }
