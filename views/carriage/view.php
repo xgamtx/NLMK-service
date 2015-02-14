@@ -35,7 +35,8 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => 'status',
                 'value' => CarriageStatus::getLabelByStatusId($model->status)
-            ]
+            ],
+            'storage'
         ],
     ]) ?>
 </div>

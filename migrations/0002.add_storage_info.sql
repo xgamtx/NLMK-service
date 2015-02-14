@@ -1,0 +1,1 @@
+alter table carriage add column storage varchar(100);

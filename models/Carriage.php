@@ -12,6 +12,7 @@ use yii\db\ActiveRecord;
  * @property string $carriage_type
  * @property double $brutto_weight
  * @property integer $status
+ * @property string $storage
  *
  * @property Bolster[] $bolsters
  * @property Comment[] $comments
@@ -37,7 +38,7 @@ class Carriage extends ActiveRecord
             [['id'], 'required'],
             [['id', 'status'], 'integer'],
             [['brutto_weight'], 'number'],
-            [['carriage_type'], 'string', 'max' => 20]
+            [['carriage_type', 'storage'], 'string', 'max' => 20]
         ];
     }
 
@@ -51,6 +52,7 @@ class Carriage extends ActiveRecord
             'carriage_type' => 'Тип вагона',
             'brutto_weight' => 'Тара',
             'status' => 'Статус',
+            'storage' => 'ПЗУ'
         ];
     }
 
