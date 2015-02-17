@@ -8,7 +8,7 @@ use app\models\Carriage;
 /* @var $searchModel app\models\CarriageSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Carriages';
+$this->title = 'Вагоны';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="carriage-index">
