@@ -21,7 +21,7 @@ use yii\db\ActiveRecord;
  * @property Bolster[] $bolsters
  * @property Comment[] $comments
  * @property SideFrame[] $sideFrames
- * @property Wheelset[] $wheelsets
+ * @property WheelSet[] $wheelsets
  * @property Warehouse $warehouse
  */
 class Carriage extends ActiveRecord
@@ -97,7 +97,7 @@ class Carriage extends ActiveRecord
      */
     public function getWheelsets()
     {
-        return $this->hasMany(Wheelset::className(), ['carriage_id' => 'id']);
+        return $this->hasMany(WheelSet::className(), ['carriage_id' => 'id']);
     }
 
     /**
