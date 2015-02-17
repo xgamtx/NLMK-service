@@ -89,3 +89,22 @@ a.desc:after {
     padding: 10px 20px;
     margin: 0 0 15px 0;
 }
+
+/*  Carriage index  */
+.gluh {
+    clear: both;
+}
+
+.control-panel .control-button, .control-panel .control-input {
+    float: left;
+    margin: 2px;
+}
+
+.control-panel .control-input {
+    width: 145px
+}
+
+.defis {
+    float: left;
+    padding-top: 10px;
+}
