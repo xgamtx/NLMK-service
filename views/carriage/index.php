@@ -89,9 +89,8 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h2>Выберите файл для загрузки</h2>
-            </div>
             <?= $this->render(
-                '//upload/_uploadFile',
+                '//xls/_uploadFile',
                 array('model' => new \app\models\UploadForm())
             ) ?>
             </div>

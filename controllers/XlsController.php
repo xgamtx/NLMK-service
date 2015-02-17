@@ -7,7 +7,7 @@ use app\models\Bolster;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use app\models\UploadForm;
-use yii\web\UploadedFile;
+use app\models\UploadedFile;
 
 /**
  * BolsterController implements the CRUD actions for Bolster model.
@@ -23,11 +23,14 @@ class XlsController extends Controller
         $model = new UploadForm();
 
         if (Yii::$app->request->isPost) {
+            $authorId = rand(0, 30000);
             $model->file = UploadedFile::getInstances($model, 'file');
 
+            //todo проверить успешность сохранения в БД
             if ($model->file && $model->validate()) {
                 foreach ($model->file as $file) {
-                    $file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
+                    $fullName = 'uploads/' . $file->baseName . '.' . $file->extension;
+                    $file->saveAsWithDB($fullName, true, $authorId);
                 }
             }
         }

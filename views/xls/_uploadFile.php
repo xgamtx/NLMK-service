@@ -3,7 +3,7 @@ use yii\widgets\ActiveForm;
 
 $form = ActiveForm::begin([
     'options' => ['enctype' => 'multipart/form-data'],
-    'action' => ['upload/upload']
+    'action' => ['xls/upload']
 ]);
 ?>
 
