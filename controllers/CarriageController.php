@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\CarriageStatus;
 use Yii;
 use app\models\Carriage;
 use app\models\CarriageSearch;
@@ -34,10 +35,12 @@ class CarriageController extends Controller
     {
         $searchModel = new CarriageSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $statusList = CarriageStatus::getAllStatus();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'statusList' => $statusList
         ]);
     }
 

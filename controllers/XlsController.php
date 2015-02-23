@@ -47,7 +47,6 @@ class XlsController extends Controller
         $xlsFileList = new XlsFileList();
         $newCarriageList = $xlsFileList->collectDataFromFileList($author_id);
         $oldCarriageList = Carriage::getCarriageList($newCarriageList->getCarriageIdList());
-        $zz = 1;
         return $this->render('collect', [
             'newCarriageList' => $newCarriageList,
             'oldCarriageList' => $oldCarriageList,
@@ -61,7 +60,7 @@ class XlsController extends Controller
             $xlsFileList = new XlsFileList();
             $xlsFileList->saveCarriageList($postRequest);
         }
-        exit();
+        return $this->redirect('/web/carriage/index');
     }
 
     public function actionClear() {

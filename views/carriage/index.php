@@ -7,6 +7,7 @@ use app\models\Carriage;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CarriageSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $statusList string[] */
 
 $this->title = 'Вагоны';
 $this->params['breadcrumbs'][] = $this->title;
@@ -42,7 +43,18 @@ $this->params['breadcrumbs'][] = $this->title;
         <a href="#modal" role="button" class="btn btn-primary control-button">М1</a>
         <a href="#modal" role="button" class="btn btn-primary control-button">М2</a>
         <a href="#modal" role="button" class="btn btn-primary control-button">М3</a>
-        <a href="#modal" role="button" class="btn btn-primary control-button">Статус</a>
+        <div class="dropdown control-button">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown"
+                    aria-expanded="true">
+                Статус
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
+                <? foreach ($statusList as $statusId => $status):?>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><?= $status ?></a></li>
+                <?endforeach;?>
+            </ul>
+        </div>
         <div class="input-group control-input"><input type="text" class="form-control" placeholder="Склад"></div>
         <div class="input-group control-input"><input type="text" class="form-control" placeholder=""></div>
         <span class="defis">-</span>

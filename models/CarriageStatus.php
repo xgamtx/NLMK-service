@@ -40,4 +40,8 @@ class CarriageStatus {
 
         return null;
     }
+
+    public static function getAllStatus() {
+        return self::$labels;
+    }
 }
