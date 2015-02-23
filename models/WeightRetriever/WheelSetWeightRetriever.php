@@ -33,12 +33,9 @@ class WheelSetWeightRetriever {
      * @throws \InvalidArgumentException
      */
     public static function getWeightWheelSet(WheelSet $wheelSet) {
+        $maxWidth = max($wheelSet->left_wheel_width, $wheelSet->right_wheel_width);
         foreach (self::$massWeightConverter as $wheelSetType) {
-            if (
-            ($wheelSet->left_wheel_width >= $wheelSetType['min']) &&
-            ($wheelSet->left_wheel_width <= $wheelSetType['max']) &&
-            ($wheelSet->right_wheel_width >= $wheelSetType['min']) &&
-            ($wheelSet->right_wheel_width <= $wheelSetType['max'])) {
+            if (($maxWidth >= $wheelSetType['min']) && ($maxWidth <= $wheelSetType['max'])) {
                 return $wheelSetType['weight'];
             }
         }

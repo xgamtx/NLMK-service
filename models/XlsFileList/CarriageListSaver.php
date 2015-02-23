@@ -74,6 +74,7 @@ class CarriageListSaver {
     protected function addCommonData(Carriage $oldCarriage, Carriage $newCarriage) {
         $oldCarriage->carriage_type = $newCarriage->carriage_type;
         $oldCarriage->storage = $newCarriage->storage;
+        $oldCarriage->status = $newCarriage->status;
         return $oldCarriage;
     }
 

@@ -179,4 +179,21 @@ class Carriage extends ActiveRecord
         return $result;
     }
 
+    public function beforeDelete() {
+        if (parent::beforeDelete()) {
+            foreach ($this->wheelsets as $wheelset) {
+                $wheelset->delete();
+            }
+            foreach ($this->bolsters as $bolster) {
+                $bolster->delete();
+            }
+            foreach ($this->sideFrames as $sideFrame) {
+                $sideFrame->delete();
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

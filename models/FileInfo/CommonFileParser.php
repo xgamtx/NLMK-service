@@ -9,6 +9,7 @@
 namespace app\models\FileInfo;
 
 use app\models\Carriage;
+use app\models\CarriageStatus;
 use app\models\FileInfo;
 
 class CommonFileParser {
@@ -42,6 +43,7 @@ class CommonFileParser {
         $carriage->id = $carriageInfo['B'];
         $carriage->carriage_type = $carriageInfo['C'];
         $carriage->storage = $carriageInfo['E'];
+        $carriage->status = CarriageStatus::NEW_WITHOUT_INVENTORY;
         return $carriage;
     }
 }
