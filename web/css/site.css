@@ -108,3 +108,11 @@ a.desc:after {
     float: left;
     padding-top: 10px;
 }
+
+.valid_col {
+    background: #4cae4c;
+}
+
+.invalid_col {
+    background: #ce8483;
+}

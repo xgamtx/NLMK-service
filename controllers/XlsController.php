@@ -2,6 +2,9 @@
 
 namespace app\controllers;
 
+use app\models\Carriage;
+use app\models\FileInfo;
+use app\models\XlsFileList;
 use Yii;
 use app\models\Bolster;
 use yii\web\Controller;
@@ -30,12 +33,40 @@ class XlsController extends Controller
             if ($model->file && $model->validate()) {
                 foreach ($model->file as $file) {
                     $fullName = 'uploads/' . $file->baseName . '.' . $file->extension;
+                    /** @var UploadedFile $file */
                     $file->saveAsWithDB($fullName, true, $authorId);
                 }
+                return $this->redirect('collect?author_id=' . $authorId);
             }
         }
 
         return $this->render('upload', ['model' => $model]);
+    }
+
+    public function actionCollect($author_id) {
+        $xlsFileList = new XlsFileList();
+        $newCarriageList = $xlsFileList->collectDataFromFileList($author_id);
+        $oldCarriageList = Carriage::getCarriageList($newCarriageList->getCarriageIdList());
+        $zz = 1;
+        return $this->render('collect', [
+            'newCarriageList' => $newCarriageList,
+            'oldCarriageList' => $oldCarriageList,
+            'authorId' => $author_id
+        ]);
+    }
+
+    public function actionSave() {
+        $postRequest = Yii::$app->request->post();
+        if (!empty($postRequest)) {
+            $xlsFileList = new XlsFileList();
+            $xlsFileList->saveCarriageList($postRequest);
+        }
+        exit();
+    }
+
+    public function actionClear() {
+        $fileInfo = new FileInfo();
+        $fileInfo->clear();
     }
 
     /**

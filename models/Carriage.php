@@ -27,6 +27,10 @@ use yii\db\ActiveRecord;
 class Carriage extends ActiveRecord
 {
 
+    const WHEELSETS = 'wheelsets';
+    const SIDE_FRAMES = 'sideFrames';
+    const BOLSTERS = 'bolsters';
+
     protected $full_weight;
     protected $wheelset_weight;
     protected $sideFrame_weight;
@@ -149,4 +153,30 @@ class Carriage extends ActiveRecord
         }
         return $this->full_weight;
     }
+
+    public function isFullInfoEnabled() {
+        $bolsterList = $this->getBolsters()->all();
+        return !empty($bolsterList);
+    }
+
+    public function isCommonInfoEnabled() {
+        return !empty($this->carriage_type);
+    }
+
+    public function addRelatedData($type, $dataList) {
+        foreach ($dataList as $data) {
+            $this->link($type, $data);
+        }
+    }
+
+    public static function getCarriageList($carriageIdList){
+        /** @var self[] $carriageList */
+        $carriageList = Carriage::find()->where(array('id' => $carriageIdList))->all();
+        $result = array();
+        foreach ($carriageList as $carriage) {
+            $result[$carriage->id] = $carriage;
+        }
+        return $result;
+    }
+
 }
