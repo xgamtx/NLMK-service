@@ -18,7 +18,7 @@ class CarriageSearch extends Carriage
     {
         return [
             [['id', 'status'], 'integer'],
-            [['carriage_type'], 'safe'],
+            [['carriage_type', 'storage'], 'safe'],
             [['brutto_weight'], 'number'],
         ];
     }
@@ -62,6 +62,7 @@ class CarriageSearch extends Carriage
         ]);
 
         $query->andFilterWhere(['like', 'carriage_type', $this->carriage_type]);
+        $query->andFilterWhere(['like', 'storage', $this->storage]);
 
         return $dataProvider;
     }

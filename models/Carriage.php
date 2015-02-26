@@ -53,7 +53,8 @@ class Carriage extends ActiveRecord
             [['id'], 'required'],
             [['id', 'status'], 'integer'],
             [['brutto_weight'], 'number'],
-            [['carriage_type', 'storage'], 'string', 'max' => 20]
+            [['carriage_type'], 'string', 'max' => 20],
+            [['storage'], 'string', 'max' => 100]
         ];
     }
 
