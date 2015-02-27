@@ -42,9 +42,47 @@ class CarriageSearch extends Carriage
     public function search($params)
     {
         $query = Carriage::find();
+        $subQuery = WheelSet::find()
+            ->select('carriage_id, SUM(mass) as wheelset_mass')
+            ->groupBy('carriage_id');
+        $query->leftJoin([
+            'wheelset' => $subQuery], 'wheelset.carriage_id = id');
+
+        $subQuery = Bolster::find()
+            ->select('carriage_id, SUM(mass) as bolster_mass')
+            ->groupBy('carriage_id');
+        $query->leftJoin([
+            'bolster' => $subQuery], 'bolster.carriage_id = id');
+
+        $subQuery = SideFrame::find()
+            ->select('carriage_id, SUM(mass) as side_frame_mass')
+            ->groupBy('carriage_id');
+        $query->leftJoin([
+            'side_frame' => $subQuery], 'side_frame.carriage_id = id');
+        $query->select('*, (wheelset_mass + side_frame_mass + bolster_mass) as netto_mass, (brutto_weight - (wheelset_mass + side_frame_mass + bolster_mass)) as scrap_metal');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+        ]);
+
+        $dataProvider->setSort([
+            'attributes'=>[
+                'id',
+                'carriage_type',
+                'storage',
+                'brutto_weight',
+                'netto_mass'=>[
+                    'asc'=>['netto_mass'=>SORT_ASC],
+                    'desc'=>['netto_mass'=>SORT_DESC],
+                    'label'=>'Order Name'
+                ],
+                'scrap_metal'=>[
+                    'asc'=>['scrap_metal'=>SORT_ASC],
+                    'desc'=>['scrap_metal'=>SORT_DESC],
+                    'label'=>'Order Name'
+                ],
+                'status'
+            ]
         ]);
 
         $this->load($params);

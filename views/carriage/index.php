@@ -25,6 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' =>'id',
                 'format' => 'html',
+                'attribute' => 'id',
                 'value' => function(Carriage $model) { return "<a href='/web/carriage/view?id={$model->id}'>{$model->id}</a>";},
             ],
             'carriage_type',
@@ -32,14 +33,17 @@ $this->params['breadcrumbs'][] = $this->title;
             'brutto_weight',
             [
                 'label' =>'Детали',
+                'attribute' =>'netto_mass',
                 'value' => function(Carriage $model) { return $model->getWeight(); },
             ],
             [
                 'label' =>'Лом',
+                'attribute' => 'scrap_metal',
                 'value' => function(Carriage $model) { return $model->brutto_weight - $model->getWeight(); },
             ],
             [
                 'label' => 'Статус',
+                'attribute' => 'status',
                 'format' => 'text',
                 'value' => function(Carriage $model) { return \app\models\CarriageStatus::getLabelByStatusId($model->status);}
             ],
