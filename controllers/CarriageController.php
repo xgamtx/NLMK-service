@@ -44,6 +44,15 @@ class CarriageController extends Controller
         ]);
     }
 
+    public function actionSave_weight($id) {
+        $model = $this->findModel($id);
+
+        $model->load(Yii::$app->request->post());
+        $model->save();
+
+        return $this->redirect(['index']);
+    }
+
     /**
      * Displays a single Carriage model.
      * @param integer $id

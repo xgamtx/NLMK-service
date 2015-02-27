@@ -30,7 +30,18 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'carriage_type',
             'storage',
-            'brutto_weight',
+            [
+                'label' =>'Тара',
+                'format' => 'raw',
+                'attribute' =>'brutto_weight',
+                'value' => function(Carriage $model) {
+                    if (!empty($model->brutto_weight)) {
+                        return $model->brutto_weight;
+                    } else {
+                        return $this->render('index/_bruttoWeightForm', ['model' => $model]);
+                    }
+                },
+            ],
             [
                 'label' =>'Детали',
                 'attribute' =>'netto_mass',
