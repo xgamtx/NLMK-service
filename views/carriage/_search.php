@@ -43,7 +43,8 @@ use yii\widgets\ActiveForm;
         <?= Html::activeDropDownList($model, 'status', $statusList, ['class' => "form-control"]);?>
     </div>
     <div class="input-group control-input"><input type="text" class="form-control" placeholder="Склад"></div>
-    <?= Html::submitButton('Search', ['class' => 'btn btn-primary control-button']) ?>
+    <?= Html::submitButton('Найти', ['class' => 'btn btn-primary control-button']) ?>
+    <?= Html::a('Показать все', '/web/carriage/index', ['class' => 'btn btn-primary control-button']) ?>
     <div class="gluh"></div>
     <?php ActiveForm::end(); ?>
 </div>

@@ -48,6 +48,7 @@ class CarriageController extends Controller
         $model = $this->findModel($id);
 
         $model->load(Yii::$app->request->post());
+        $model->status = CarriageStatus::WEIGHTED;
         $model->save();
 
         return $this->redirect(['index']);

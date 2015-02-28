@@ -42,6 +42,6 @@ class CarriageStatus {
     }
 
     public static function getAllStatus() {
-        return self::$labels;
+        return array('' => 'Все') + self::$labels;
     }
 }

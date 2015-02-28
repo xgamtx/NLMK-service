@@ -10,6 +10,7 @@ namespace app\models\XlsFileList;
 
 
 use app\models\Carriage;
+use app\models\CarriageStatus;
 
 class CarriageListSaver {
     /**
@@ -38,6 +39,7 @@ class CarriageListSaver {
             $carriage = $carriageList[$carriageId];
             $oldCarriage = $this->getCarriageById($carriageId);
             $newCarriage = $this->addCommonData($oldCarriage, $carriage);
+            $newCarriage->status = CarriageStatus::NEW_WITHOUT_INVENTORY;
             $newCarriage->save();
         }
     }
@@ -54,6 +56,7 @@ class CarriageListSaver {
             $carriage = $carriageList[$carriageId];
             $oldCarriage = $this->getCarriageById($carriageId);
             $newCarriage = $this->addDetailData($oldCarriage, $carriage);
+            $newCarriage->status = CarriageStatus::NEW_WITH_INVENTORY;
             $newCarriage->save();
         }
     }
