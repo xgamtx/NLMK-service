@@ -3,9 +3,10 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\models\CarriageStatus;
+use app\models\Carriage;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Carriage */
+/* @var $model Carriage */
 
 $this->title = $model->getName();
 $this->params['breadcrumbs'][] = ['label' => 'Список вагонов', 'url' => ['index']];
@@ -31,8 +32,19 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'carriage_type',
-            'brutto_weight',
             [
+                'label' =>'Тара',
+                'format' => 'raw',
+                'attribute' =>'brutto_weight',
+                'value' => !empty($model->brutto_weight) ?
+                    $model->brutto_weight :
+                    $this->render('_setValueForm', [
+                        'model' => $model,
+                        'propertyName' => 'brutto_weight',
+                        'propertyLabel' => 'Тара',
+                        'url' => 'carriage/save-weight'
+                    ]),
+            ],[
                 'label' => 'Детали',
                 'value' => $model->getWeight()
             ],

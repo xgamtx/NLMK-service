@@ -23,7 +23,15 @@
         <? foreach ($models as $key => $model):?>
             <tr>
                 <td><?=$model->id?></td>
-                <td><?= empty($model->real_id) ? '<a href="#">задать</a>' : $model->real_id; ?></td>
+                <td><?= !empty($model->real_id) ?
+                        $model->real_id :
+                        $this->render('//carriage/_setValueForm', [
+                            'model' => $model,
+                            'propertyName' => 'real_id',
+                            'propertyLabel' => 'ID',
+                            'url' => 'side-frame/save-real-id'
+                        ]);
+                    ?></td>
                 <td><a href="#<?=$model->id?>">Ссылка</a></td>
                 <td><?=$model->produced_year?></td>
                 <td><?=$model->factory?></td>

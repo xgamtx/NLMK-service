@@ -103,6 +103,14 @@ class SideFrameController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionSaveRealId($id) {
+        $model = $this->findModel($id);
+
+        $model->load(Yii::$app->request->post());
+        $model->save();
+        return $this->redirect(['//carriage/view', 'id' => $model->carriage_id]);
+    }
+
     /**
      * Finds the SideFrame model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

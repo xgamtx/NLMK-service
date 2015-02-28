@@ -90,6 +90,14 @@ class BolsterController extends Controller
         }
     }
 
+    public function actionSaveRealId($id) {
+        $model = $this->findModel($id);
+
+        $model->load(Yii::$app->request->post());
+        $model->save();
+        return $this->redirect(['//carriage/view', 'id' => $model->carriage_id]);
+    }
+
     /**
      * Deletes an existing Bolster model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

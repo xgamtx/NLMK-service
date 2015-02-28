@@ -38,7 +38,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     if (!empty($model->brutto_weight)) {
                         return $model->brutto_weight;
                     } else {
-                        return $this->render('index/_bruttoWeightForm', ['model' => $model]);
+                        return $this->render('_setValueForm', [
+                            'model' => $model,
+                            'propertyName' => 'brutto_weight',
+                            'propertyLabel' => 'Тара',
+                            'url' => 'carriage/save-weight',
+                        ]);
                     }
                 },
             ],

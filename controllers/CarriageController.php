@@ -44,7 +44,7 @@ class CarriageController extends Controller
         ]);
     }
 
-    public function actionSave_weight($id) {
+    public function actionSaveWeight($id) {
         $model = $this->findModel($id);
 
         $model->load(Yii::$app->request->post());

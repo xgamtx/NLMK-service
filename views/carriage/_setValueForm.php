@@ -2,10 +2,14 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\db\ActiveRecord;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Carriage */
+/* @var $model ActiveRecord */
 /* @var $form yii\widgets\ActiveForm */
+/* @var $url string */
+/* @var $propertyName string */
+/* @var $propertyLabel string */
 ?>
 <?= Html::a('Установить', '#', [
     'class' => 'set-weight',
@@ -13,10 +17,10 @@ use yii\widgets\ActiveForm;
 ]);?>
 <div class="carriage-form" style="display: none">
 
-    <?php $form = ActiveForm::begin(['action' => ['carriage/save_weight?id=' . $model->id]]); ?>
+    <?php $form = ActiveForm::begin(['action' => [$url . '?id=' . $model->id]]); ?>
     <?= Html::activeHiddenInput($model, 'id');?>
-    <?= Html::activeTextInput($model, 'brutto_weight', ['class' => 'form-control input-xs brutto_weight_input', 'placeholder' => 'Тара', 'size' => 4]);?>
-    <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Сохранить', ['class' => 'btn btn-primary btn-xs']) ?>
+    <?= Html::activeTextInput($model, $propertyName, ['class' => 'form-control input-xs brutto_weight_input', 'placeholder' => $propertyLabel, 'size' => 7]);?>
+    <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary btn-xs']) ?>
 
     <?php ActiveForm::end(); ?>
 
