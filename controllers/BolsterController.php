@@ -2,12 +2,15 @@
 
 namespace app\controllers;
 
+use app\models\PathCreator;
 use Yii;
 use app\models\Bolster;
 use app\models\Search\BolsterSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\UploadImage;
+use yii\web\UploadedFile;
 
 /**
  * BolsterController implements the CRUD actions for Bolster model.
@@ -125,5 +128,27 @@ class BolsterController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionSaveImage($id)
+    {
+        $model = $this->findModel($id);
+        $imageModel = new UploadImage();
+
+        if (Yii::$app->request->isPost) {
+            $imageModel->file = UploadedFile::getInstance($imageModel, 'file');
+
+            if ($imageModel->file && $imageModel->validate()) {
+                $path = 'uploads/' . $model->carriage_id . '/bolster';
+                PathCreator::createPath($path);
+                $address =  $path . '/' . $model->id . '.' . $imageModel->file->extension;
+                if ($imageModel->file->saveAs($address)) {
+                    $model->image_src = $address;
+                    $model->save();
+                }
+            }
+        }
+
+        return $this->redirect(['//carriage/view', 'id' => $model->carriage_id]);
     }
 }

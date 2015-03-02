@@ -9,6 +9,9 @@ use app\models\CarriageSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\UploadImage;
+use yii\web\UploadedFile;
+use app\models\PathCreator;
 
 /**
  * CarriageController implements the CRUD actions for Carriage model.
@@ -130,5 +133,27 @@ class CarriageController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionSaveImage($id, $propertyName)
+    {
+        $model = $this->findModel($id);
+        $imageModel = new UploadImage();
+
+        if (Yii::$app->request->isPost) {
+            $imageModel->file = UploadedFile::getInstance($imageModel, 'file');
+
+            if ($imageModel->file && $imageModel->validate()) {
+                $path = 'uploads/' . $model->id . '/common_image';
+                PathCreator::createPath($path);
+                $address =  $path . '/' . $propertyName . '.' . $imageModel->file->extension;
+                if ($imageModel->file->saveAs($address)) {
+                    $model->{$propertyName} = $address;
+                    $model->save();
+                }
+            }
+        }
+
+        return $this->redirect(['//carriage/view', 'id' => $model->id]);
     }
 }

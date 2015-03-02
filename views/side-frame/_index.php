@@ -1,5 +1,7 @@
 <?php
 
+use app\models\UploadImage;
+
 /* @var $this yii\web\View */
 /* @var $models app\models\SideFrame[] */
 /* @var $weight float */
@@ -32,7 +34,14 @@
                             'url' => 'side-frame/save-real-id'
                         ]);
                     ?></td>
-                <td><a href="#<?=$model->id?>">Ссылка</a></td>
+                <td><?= !empty($model->image_src) ?
+                        "<a href='/web/{$model->image_src}' target='_blank'>Просмотр</a>" :
+                        $this->render('//carriage/_uploadFileForm', [
+                            'model' => $model,
+                            'url' => 'side-frame/save-image',
+                            'imageModel' => new UploadImage()
+                        ]);
+                    ?></td>
                 <td><?=$model->produced_year?></td>
                 <td><?=$model->factory?></td>
                 <td><?=$model->mass?></td>

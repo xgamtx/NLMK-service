@@ -17,6 +17,7 @@ use yii\db\ActiveRecord;
  * @property integer $left_wheel_width
  * @property float $mass
  * @property integer $carriage_id
+ * @property string $image_src
  *
  * @property Carriage $carriage
  */
@@ -38,6 +39,7 @@ class WheelSet extends ActiveRecord
         return [
             [['id'], 'required'],
             [['id', 'real_id', 'produced_year', 'factory', 'right_wheel_width', 'left_wheel_width', 'carriage_id'], 'integer'],
+            [['image_src'], 'string', 'max' => 120],
             [['mass'], 'double']
         ];
     }
@@ -56,6 +58,7 @@ class WheelSet extends ActiveRecord
             'left_wheel_width' => 'Толщина правого обода колес',
             'carriage_id' => 'Номер вагона',
             'mass' => 'Масса',
+            'image_src' => "Изображение",
         ];
     }
 

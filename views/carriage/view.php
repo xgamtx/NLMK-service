@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\models\CarriageStatus;
 use app\models\Carriage;
+use app\models\UploadImage;
 
 /* @var $this yii\web\View */
 /* @var $model Carriage */
@@ -74,5 +75,22 @@ $this->params['breadcrumbs'][] = $this->title;
         'models' => $model->bolsters,
         'weight' => $model->getBolstersWeight()
     ]) ?>
+    <div><?= !empty($model->im1) ?
+        "<a href='/web/{$model->im1}' target='_blank'>Изображение1</a>" :
+        $this->render('//carriage/_uploadCommonFileForm', [
+            'model' => $model,
+            'url' => 'carriage/save-image',
+            'imageModel' => new UploadImage(),
+            'propertyName' => 'im1'
+        ]); ?></div>
+
+    <div><?= !empty($model->im2) ?
+        "<a href='/web/{$model->im2}' target='_blank'>Изображение2</a>" :
+        $this->render('//carriage/_uploadCommonFileForm', [
+            'model' => $model,
+            'url' => 'carriage/save-image',
+            'imageModel' => new UploadImage(),
+            'propertyName' => 'im2'
+        ]); ?></div>
 
 </div>

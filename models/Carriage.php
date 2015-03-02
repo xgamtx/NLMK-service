@@ -17,6 +17,8 @@ use yii\db\ActiveRecord;
  * @property float $wheelset_weight
  * @property float $sideFrame_weight
  * @property float $bolster_weight
+ * @property string $im1
+ * @property string $im2
  *
  * @property Bolster[] $bolsters
  * @property Comment[] $comments
@@ -54,6 +56,7 @@ class Carriage extends ActiveRecord
             [['id', 'status'], 'integer'],
             [['brutto_weight'], 'number'],
             [['carriage_type'], 'string', 'max' => 20],
+            [['im1', 'im2'], 'string', 'max' => 120],
             [['storage'], 'string', 'max' => 100]
         ];
     }
@@ -69,7 +72,9 @@ class Carriage extends ActiveRecord
             'brutto_weight' => 'Тара',
             'status' => 'Статус',
             'storage' => 'ПЗУ',
-            'warehouse' => 'Склад'
+            'warehouse' => 'Склад',
+            'im1' => 'Изображение1',
+            'im2' => 'Изображение2',
         ];
     }
 

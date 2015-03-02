@@ -15,6 +15,7 @@ use yii\db\ActiveRecord;
  * @property integer $factory
  * @property integer $carriage_id
  * @property float $mass
+ * @property string $image_src
  *
  * @property Carriage $carriage
  */
@@ -36,7 +37,8 @@ class SideFrame extends ActiveRecord
         return [
             [['id'], 'required'],
             [['id', 'real_id', 'produced_year', 'factory', 'carriage_id'], 'integer'],
-            [['mass'], 'double']
+            [['image_src'], 'string', 'max' => 120],
+            [['mass'], 'double'],
         ];
     }
 
@@ -51,7 +53,8 @@ class SideFrame extends ActiveRecord
             'produced_year' => 'Год изготовления',
             'factory' => 'Завод изготовления',
             'carriage_id' => 'Номер вагона',
-            'mass' => 'Масса'
+            'mass' => 'Масса',
+            'image_src' => "Изображение",
         ];
     }
 

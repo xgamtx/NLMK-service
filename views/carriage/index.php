@@ -23,6 +23,12 @@ $this->params['breadcrumbs'][] = $this->title;
 //        'filterModel' => $searchModel,
         'columns' => [
             [
+                'class' => '\yii\grid\CheckboxColumn',
+                'header' => Html::checkBox('selection_all', false, [
+                    'class' => 'select-on-check-all',
+                ]),
+            ],
+            [
                 'label' =>'id',
                 'format' => 'html',
                 'attribute' => 'id',
