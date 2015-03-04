@@ -202,4 +202,34 @@ class Carriage extends ActiveRecord
         }
     }
 
+    public function allImageDownloaded() {
+        if (empty($this->im1) || empty($this->im2)) {
+            return false;
+        }
+        if ((count($this->bolsters) < 2) ||
+            (count($this->sideFrames) < 4) ||
+            (count($this->wheelsets) < 4)) {
+            return false;
+        }
+        foreach ($this->bolsters as $bolster) {
+            if (empty($bolster->image_src)) {
+                return false;
+            }
+        }
+
+        foreach ($this->wheelsets as $wheelSet) {
+            if (empty($wheelSet->image_src)) {
+                return false;
+            }
+        }
+
+        foreach ($this->sideFrames as $sideFrame) {
+            if (empty($sideFrame->image_src)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 }

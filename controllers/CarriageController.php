@@ -64,8 +64,14 @@ class CarriageController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        if (($model->status == CarriageStatus::WEIGHTED) &&
+            $model->allImageDownloaded()) {
+            $model->status = CarriageStatus::ADOPTED;
+            $model->save();
+        }
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 
