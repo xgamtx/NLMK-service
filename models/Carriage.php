@@ -232,4 +232,13 @@ class Carriage extends ActiveRecord
         return true;
     }
 
+    public function changeStage($stageId) {
+        if (CarriageStatus::isAvailableForChangeToStage($this->status, $stageId)) {
+            $this->status = $stageId;
+            $this->save();
+            return true;
+        }
+
+        return false;
+    }
 }

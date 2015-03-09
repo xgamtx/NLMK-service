@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\models\CarriageStatus;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\CarriageSearch */
@@ -10,6 +11,14 @@ use yii\widgets\ActiveForm;
 ?>
 
 <div class="control-panel">
+    <?php $form = ActiveForm::begin([
+        'action' => ['set-stage'],
+        'method' => 'post',
+    ]); ?>
+        <?= Html::hiddenInput('stage_id', 0, ['id' => 'stage_id']); ?>
+        <?= Html::hiddenInput('carriage_id_list', '', ['id' => 'carriage_id_list']); ?>
+        <?= Html::submitButton('Найти', ['style' => 'display: none']) ?>
+    <?php ActiveForm::end();?>
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
@@ -23,10 +32,10 @@ use yii\widgets\ActiveForm;
         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
             <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Печать</a></li>
             <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Сохранить</a></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Прибыл</a></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Утвержден на демонтаж</a></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Демонтирован</a></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Архив</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="return setCarriageStage(<?= CarriageStatus::ARRIVED; ?>)">Прибыл</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="return setCarriageStage(<?= CarriageStatus::CONFIRMED; ?>)">Утвержден на демонтаж</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="return setCarriageStage(<?= CarriageStatus::DESTROYED; ?>)">Демонтирован</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="return setCarriageStage(<?= CarriageStatus::ARCHIVE; ?>)">Архив</a></li>
         </ul>
     </div>
     <a href="#" role="button" class="btn btn-primary control-button">Склад</a>
@@ -62,10 +71,15 @@ use yii\widgets\ActiveForm;
     </div>
 </div>
 <script type="text/javascript">
-    $('document').ready(function(){
-        $('#modal').modal('false');
-    });
-    function filterStatus(statusId) {
-        $('#statusInput').val(statusId);
+    function setCarriageStage(stage) {
+        var carriageIdList = getSelectedRows();
+        $('#carriage_id_list').val(carriageIdList);
+        $('#stage_id').val(stage);
+        $('#w0').submit();
+
+        return false;
+    }
+    function getSelectedRows() {
+        return $('#w3').yiiGridView('getSelectedRows');
     }
 </script>

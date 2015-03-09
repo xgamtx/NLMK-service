@@ -162,4 +162,10 @@ class CarriageController extends Controller
 
         return $this->redirect(['//carriage/view', 'id' => $model->id]);
     }
+
+    public function actionSetStage() {
+        $model = new Carriage\CarriageStageChanger(Yii::$app->request->post());
+        $model->changeStage();
+        return $this->redirect(['index']);
+    }
 }

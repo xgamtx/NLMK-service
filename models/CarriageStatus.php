@@ -33,6 +33,27 @@ class CarriageStatus {
         self::ARCHIVE => 'Архив',
     );
 
+    protected static $availableForChangeStage = array(
+        self::NEW_WITHOUT_INVENTORY => array(),
+        self::NEW_WITH_INVENTORY => array(),
+        self::ARRIVED => array(self::NEW_WITH_INVENTORY),
+        self::WEIGHTED => array(),
+        self::ADOPTED => array(),
+        self::CONFIRMED => array(self::ADOPTED),
+        self::DESTROYED => array(self::CONFIRMED),
+        self::STORAGE => array(self::DESTROYED),
+        self::ARCHIVE => array(
+            self::NEW_WITHOUT_INVENTORY,
+            self::NEW_WITH_INVENTORY,
+            self::ARRIVED,
+            self::WEIGHTED,
+            self::ADOPTED,
+            self::CONFIRMED,
+            self::DESTROYED,
+            self::STORAGE,
+        ),
+    );
+
     public static function getLabelByStatusId($statusId) {
         if (isset(self::$labels[$statusId])) {
             return self::$labels[$statusId];
@@ -43,5 +64,13 @@ class CarriageStatus {
 
     public static function getAllStatus() {
         return array('' => 'Все') + self::$labels;
+    }
+
+    public static function isAvailableForChange($stageId) {
+        return self::$availableForChangeStage[$stageId] != array();
+    }
+
+    public static function isAvailableForChangeToStage($fromStageId, $toStageId) {
+        return in_array((int)$fromStageId, self::$availableForChangeStage[$toStageId]);
     }
 }
