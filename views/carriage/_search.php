@@ -38,9 +38,9 @@ use app\models\CarriageStatus;
             <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="return setCarriageStage(<?= CarriageStatus::ARCHIVE; ?>)">Архив</a></li>
         </ul>
     </div>
-    <a href="#" role="button" class="btn btn-primary control-button">Склад</a>
-    <a href="#" role="button" class="btn btn-primary control-button">Архив</a>
     <a href="#modal" role="button" class="btn btn-primary control-button" data-toggle="modal">Добавить</a>
+    <?= Html::submitButton('Найти', ['class' => 'btn btn-primary control-button']) ?>
+    <?= Html::a('Показать все', '/web/carriage/index', ['class' => 'btn btn-primary control-button']) ?>
     <div class="gluh"></div>
     <div class="input-group control-input"><?= Html::activeTextInput($model, 'id', ['class' => 'form-control', 'placeholder' => 'Номер вагона']);?></div>
     <div class="input-group control-input"><?= Html::activeTextInput($model, 'carriage_type', ['class' => 'form-control', 'placeholder' => 'Тип вагона']);?></div>
@@ -52,8 +52,6 @@ use app\models\CarriageStatus;
         <?= Html::activeDropDownList($model, 'status', $statusList, ['class' => "form-control"]);?>
     </div>
     <div class="input-group control-input"><input type="text" class="form-control" placeholder="Склад"></div>
-    <?= Html::submitButton('Найти', ['class' => 'btn btn-primary control-button']) ?>
-    <?= Html::a('Показать все', '/web/carriage/index', ['class' => 'btn btn-primary control-button']) ?>
     <div class="gluh"></div>
     <?php ActiveForm::end(); ?>
 </div>
