@@ -91,6 +91,10 @@ class SiteController extends Controller
 
     public function actionAbout()
     {
+        if (!Yii::$app->user->can('about')) {
+            throw new \InvalidArgumentException('Access denied');
+        }
         return $this->render('about');
     }
+
 }
