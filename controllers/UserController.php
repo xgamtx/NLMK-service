@@ -84,6 +84,7 @@ class UserController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+            $model->password = '';
             return $this->render('update', [
                 'model' => $model,
             ]);
