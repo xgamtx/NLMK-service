@@ -1,0 +1,1 @@
+alter table nlmkService.carriage add column datetime_arrived timestamp;

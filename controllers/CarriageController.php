@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\CarriageStatus;
+use app\models\LogProvider;
 use Yii;
 use app\models\Carriage;
 use app\models\CarriageSearch;
@@ -52,7 +53,10 @@ class CarriageController extends Controller
 
         $model->load(Yii::$app->request->post());
         $model->status = CarriageStatus::WEIGHTED;
-        $model->save();
+        if ($model->save()) {
+            $message = 'Вагон №' . $model->id . " взвешен";
+            LogProvider::instance()->setContext($model->id)->save($message);
+        }
 
         return $this->redirect(['index']);
     }
@@ -155,7 +159,10 @@ class CarriageController extends Controller
                 $address =  $path . '/' . $propertyName . '.' . $imageModel->file->extension;
                 if ($imageModel->file->saveAs($address)) {
                     $model->{$propertyName} = $address;
-                    $model->save();
+                    if ($model->save()) {
+                        $message = 'Загружено изображение для вагона №' . $model->id;
+                        LogProvider::instance()->setContext($model->id)->save($message);
+                    }
                 }
             }
         }

@@ -45,9 +45,6 @@ use app\models\CarriageStatus;
     <div class="input-group control-input"><?= Html::activeTextInput($model, 'id', ['class' => 'form-control', 'placeholder' => 'Номер вагона']);?></div>
     <div class="input-group control-input"><?= Html::activeTextInput($model, 'carriage_type', ['class' => 'form-control', 'placeholder' => 'Тип вагона']);?></div>
     <div class="input-group control-input"><?= Html::activeTextInput($model, 'storage', ['class' => 'form-control', 'placeholder' => 'ПЗУ']);?></div>
-    <a href="#" role="button" class="btn btn-primary control-button">М1</a>
-    <a href="#" role="button" class="btn btn-primary control-button">М2</a>
-    <a href="#" role="button" class="btn btn-primary control-button">М3</a>
     <div class="dropdown control-button">
         <?= Html::activeDropDownList($model, 'status', $statusList, ['class' => "form-control"]);?>
     </div>

@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\LogProvider;
 use Yii;
 use app\models\WheelSet;
 use app\models\WheelSetSearch;
@@ -110,7 +111,10 @@ class WheelSetController extends Controller
         $model = $this->findModel($id);
 
         $model->load(Yii::$app->request->post());
-        $model->save();
+        if ($model->save()) {
+            $message = 'Установлен реальный номер колесной пары №' . $model->id . ' в ' . $model->real_id;
+            LogProvider::instance()->setContext($model->carriage_id)->save($message);
+        }
         return $this->redirect(['//carriage/view', 'id' => $model->carriage_id]);
     }
 
@@ -144,7 +148,10 @@ class WheelSetController extends Controller
                 $address =  $path . '/' . $model->id . '.' . $imageModel->file->extension;
                 if ($imageModel->file->saveAs($address)) {
                     $model->image_src = $address;
-                    $model->save();
+                    if ($model->save()) {
+                        $message = 'Загружено изображение для колесной пары №' . $model->id;
+                        LogProvider::instance()->setContext($model->carriage_id)->save($message);
+                    }
                 }
             }
         }

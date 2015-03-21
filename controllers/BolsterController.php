@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\LogProvider;
 use app\models\PathCreator;
 use Yii;
 use app\models\Bolster;
@@ -97,7 +98,11 @@ class BolsterController extends Controller
         $model = $this->findModel($id);
 
         $model->load(Yii::$app->request->post());
-        $model->save();
+        if ($model->save()) {
+            $message = 'Установлен реальный номер надрессорной балки №' . $model->id . ' в ' . $model->real_id;
+            LogProvider::instance()->setContext($model->carriage_id)->save($message);
+        }
+
         return $this->redirect(['//carriage/view', 'id' => $model->carriage_id]);
     }
 
@@ -144,7 +149,10 @@ class BolsterController extends Controller
                 $address =  $path . '/' . $model->id . '.' . $imageModel->file->extension;
                 if ($imageModel->file->saveAs($address)) {
                     $model->image_src = $address;
-                    $model->save();
+                    if ($model->save()) {
+                        $message = 'Загружено изображение для надрессорной балки №' . $model->id;
+                        LogProvider::instance()->setContext($model->carriage_id)->save($message);
+                    }
                 }
             }
         }

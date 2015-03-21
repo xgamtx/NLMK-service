@@ -19,11 +19,13 @@ use yii\db\ActiveRecord;
  * @property float $bolster_weight
  * @property string $im1
  * @property string $im2
+ * @property string $datetime_arrived
  *
  * @property Bolster[] $bolsters
  * @property Comment[] $comments
  * @property SideFrame[] $sideFrames
  * @property WheelSet[] $wheelsets
+ * @property Log[] $logs
  * @property Warehouse $warehouse
  */
 class Carriage extends ActiveRecord
@@ -55,9 +57,9 @@ class Carriage extends ActiveRecord
             [['id'], 'required'],
             [['id', 'status'], 'integer'],
             [['brutto_weight'], 'number'],
-            [['carriage_type'], 'string', 'max' => 20],
+            [['carriage_type', 'datetime_arrived'], 'string', 'max' => 20],
             [['im1', 'im2'], 'string', 'max' => 120],
-            [['storage'], 'string', 'max' => 100]
+            [['storage'], 'string', 'max' => 100],
         ];
     }
 
@@ -75,6 +77,7 @@ class Carriage extends ActiveRecord
             'warehouse' => 'Склад',
             'im1' => 'Изображение1',
             'im2' => 'Изображение2',
+            'datetime_arrived' => 'время прибытия'
         ];
     }
 
@@ -108,6 +111,14 @@ class Carriage extends ActiveRecord
     public function getWheelsets()
     {
         return $this->hasMany(WheelSet::className(), ['carriage_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLogs()
+    {
+        return $this->hasMany(Log::className(), ['carriage_id' => 'id']);
     }
 
     /**
@@ -234,6 +245,12 @@ class Carriage extends ActiveRecord
 
     public function changeStage($stageId) {
         if (CarriageStatus::isAvailableForChangeToStage($this->status, $stageId)) {
+            $message = "Изменен статус с '" . CarriageStatus::getLabelByStatusId($this->status) .
+                "' на  '" . CarriageStatus::getLabelByStatusId($stageId) . "'";
+            LogProvider::instance()->setContext($this->id)->save($message);
+            if ($stageId == CarriageStatus::ARRIVED) {
+                $this->datetime_arrived = date('Y-m-d H:i:s');
+            }
             $this->status = $stageId;
             $this->save();
             return true;

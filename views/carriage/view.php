@@ -92,5 +92,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'imageModel' => new UploadImage(),
             'propertyName' => 'im2'
         ]); ?></div>
+    <div>
+        <?= $this->render('//log/_index', [
+            'models' => $model->getLogs()->all(),
+        ]); ?>
+    </div>
 
 </div>
