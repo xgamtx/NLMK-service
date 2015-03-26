@@ -83,4 +83,9 @@ class WheelSet extends ActiveRecord
         return WheelSetWeightRetriever::getWeightWheelSet($this);
     }
 
+    public function getFactoryName() {
+        $factory = DictFactory::findOne($this->factory);
+        return $factory->short_name;
+    }
+
 }

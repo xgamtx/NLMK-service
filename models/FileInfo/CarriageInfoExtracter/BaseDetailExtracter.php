@@ -9,6 +9,7 @@
 namespace app\models\FileInfo\CarriageInfoExtracter;
 
 
+use app\models\DictFactory;
 use app\models\FileInfo\ExtracterBase;
 
 class BaseDetailExtracter extends ExtracterBase {
@@ -49,5 +50,13 @@ class BaseDetailExtracter extends ExtracterBase {
 
     protected function isStartDataInRow($activeTable, $rowId) {
         return is_numeric($activeTable[$rowId]['A']);
+    }
+
+    protected function extractFactoryId($factoryContent) {
+        if (is_numeric($factoryContent)) {
+            return DictFactory::getIdByDictId($factoryContent);
+        }
+
+        return DictFactory::getIdByName($factoryContent);
     }
 }

@@ -74,4 +74,10 @@ class SideFrame extends ActiveRecord
     public function getWeight() {
         return SideFrameWeightRetriever::getWeightSideFrame($this);
     }
+
+    public function getFactoryName() {
+        $factory = DictFactory::findOne($this->factory);
+        return $factory->short_name;
+    }
+
 }

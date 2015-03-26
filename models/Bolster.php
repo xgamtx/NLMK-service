@@ -74,4 +74,10 @@ class Bolster extends ActiveRecord
     public function getWeight() {
         return BolsterWeightRetriever::getWeightBolster($this);
     }
+
+    public function getFactoryName() {
+        $factory = DictFactory::findOne($this->factory);
+        return $factory->short_name;
+    }
+
 }

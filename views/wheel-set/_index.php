@@ -45,7 +45,7 @@ use app\models\UploadImage;
                         ]);
                     ?></td>
                 <td><?=$model->produced_year?></td>
-                <td><?=$model->factory?></td>
+                <td><?=$model->getFactoryName()?></td>
                 <td><?=$model->right_wheel_width?></td>
                 <td><?=$model->left_wheel_width?></td>
                 <td><?=$model->mass?></td>

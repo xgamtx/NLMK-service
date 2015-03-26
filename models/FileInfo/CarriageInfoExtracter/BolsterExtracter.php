@@ -40,7 +40,11 @@ class BolsterExtracter extends BaseDetailExtracter {
         for ($i = $startDataRow; $i < $startDataRow + 2; $i++) {
             $bolster = new Bolster();
             foreach ($assoc as $field => $columnCode) {
-                $bolster->{$field} = trim($activeTable[$i][$columnCode]);
+                if ($field == 'factory') {
+                    $bolster->factory = $this->extractFactoryId(trim($activeTable[$i][$columnCode]));
+                } else {
+                    $bolster->{$field} = trim($activeTable[$i][$columnCode]);
+                }
             }
             $bolster->carriage_id = $carriageId;
             $bolsterList[] = $bolster;

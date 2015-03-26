@@ -43,7 +43,7 @@ use app\models\UploadImage;
                         ]);
                     ?></td>
                 <td><?=$model->produced_year?></td>
-                <td><?=$model->factory?></td>
+                <td><?=$model->getFactoryName()?></td>
                 <td><?=$model->mass?></td>
             </tr>
         <?endforeach;?>

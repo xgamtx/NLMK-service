@@ -39,7 +39,12 @@ class SideFrameExtracter extends BaseDetailExtracter {
         for ($i = $startDataRow; $i < $startDataRow + 4; $i++) {
             $sideFrame = new SideFrame();
             foreach ($assoc as $field => $columnCode) {
-                $sideFrame->{$field} = trim($activeTable[$i][$columnCode]);
+                if ($field == 'factory') {
+                    $sideFrame->factory = $this->extractFactoryId(trim($activeTable[$i][$columnCode]));
+                } else {
+                    $sideFrame->{$field} = trim($activeTable[$i][$columnCode]);
+                }
+
             }
             $sideFrame->carriage_id = $carriageId;
             $sideFrameList[] = $sideFrame;

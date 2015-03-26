@@ -41,7 +41,11 @@ class WheelSetExtracter extends BaseDetailExtracter {
         for ($i = $startDataRow; $i < $startDataRow + 4; $i++) {
             $wheelSet = new WheelSet();
             foreach ($assoc as $field => $columnCode) {
-                $wheelSet->{$field} = trim($activeTable[$i][$columnCode]);
+                if ($field == 'factory') {
+                    $wheelSet->factory = $this->extractFactoryId(trim($activeTable[$i][$columnCode]));
+                } else {
+                    $wheelSet->{$field} = trim($activeTable[$i][$columnCode]);
+                }
             }
             $wheelSet->carriage_id = $carriageId;
             $wheelSetList[] = $wheelSet;
