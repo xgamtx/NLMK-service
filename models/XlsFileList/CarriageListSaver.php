@@ -70,6 +70,7 @@ class CarriageListSaver {
         if (!$carriage) {
             $carriage = new Carriage();
             $carriage->id = $carriageId;
+            $carriage->save();
         }
         return $carriage;
     }

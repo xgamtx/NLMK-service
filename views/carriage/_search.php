@@ -49,6 +49,8 @@ use app\models\CarriageStatus;
         <?= Html::activeDropDownList($model, 'status', $statusList, ['class' => "form-control"]);?>
     </div>
     <div class="input-group control-input"><input type="text" class="form-control" placeholder="Склад"></div>
+    <div class="input-group control-input"><input type="text" class="form-control" placeholder="Прибыл с "></div>
+    <div class="input-group control-input"><input type="text" class="form-control" placeholder="Прибыл по"></div>
     <div class="gluh"></div>
     <?php ActiveForm::end(); ?>
 </div>

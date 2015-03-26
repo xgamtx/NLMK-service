@@ -78,7 +78,8 @@ class FileInfo extends ActiveRecord
         }
 
         $activeTable = $this->file->getActiveSheet()->toArray(null,true,true,true);
-        if (preg_match('/Опись номерных деталей  вагона №(.*)./', $activeTable[4]['B'], $matches)) {
+        if ((preg_match('/Опись номерных деталей  вагона №(.*)./', $activeTable[4]['B'], $matches)) ||
+            preg_match('/Акт технического состояния грузового вагона № (.*)/', $activeTable[1]['A'], $matches)) {
             return self::DETAIL_FILE_TYPE;
         } else {
             return self::COMMON_FILE_TYPE;

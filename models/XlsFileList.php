@@ -10,21 +10,21 @@ namespace app\models;
 
 
 use app\models\FileInfo\CommonFileParser;
-use app\models\FileInfo\DetailFileParser;
+use app\models\FileInfo\DetailFileParserNew;
 use app\models\XlsFileList\Result;
 use app\models\XlsFileList\CarriageListSaver;
 
 class XlsFileList {
     /** @var CommonFileParser */
     protected $commonInfoParser;
-    /** @var DetailFileParser */
+    /** @var DetailFileParserNew */
     protected $detailInfoParser;
     /** @var CarriageListSaver */
     protected $carriageListSaver;
 
     public function __construct() {
         $this->commonInfoParser = new CommonFileParser();
-        $this->detailInfoParser = new DetailFileParser();
+        $this->detailInfoParser = new DetailFileParserNew();
         $this->carriageListSaver = new CarriageListSaver();
     }
     public function collectDataFromFileList($authorId) {
@@ -44,10 +44,9 @@ class XlsFileList {
                 }
             } elseif ($fileType == FileInfo::DETAIL_FILE_TYPE) {
                 try {
-                    $carriage = $this->detailInfoParser->collectDetailFileContent($file);
-                    $carriageId = $carriage->id;
+                    $carriageList = $this->detailInfoParser->collectDetailFileContent($file);
                     // todo обработать наличие id в списке
-                    $detailCarriageInfo[$carriageId] = $carriage;
+                    $detailCarriageInfo = $detailCarriageInfo + $carriageList;
                 } catch (\Exception $e) {
                     $failedParsingFile[$file->name] = $e->getMessage();
                 }

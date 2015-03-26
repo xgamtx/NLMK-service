@@ -77,7 +77,7 @@ class Carriage extends ActiveRecord
             'warehouse' => 'Склад',
             'im1' => 'Изображение1',
             'im2' => 'Изображение2',
-            'datetime_arrived' => 'время прибытия'
+            'datetime_arrived' => 'Время прибытия'
         ];
     }
 

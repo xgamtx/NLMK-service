@@ -70,6 +70,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Склад',
                 'value' => function(Carriage $model) { return empty($model->warehouse) ? '-' : $model->warehouse->name; }
             ],
+            [
+                'label' => 'Время прибытия',
+                'value' => function(Carriage $model) {
+                    return $model->datetime_arrived == '0000-00-00 00:00:00' ? '' : $model->datetime_arrived;
+                }
+            ],
 
 //            ['class' => 'yii\grid\ActionColumn'],
         ],
