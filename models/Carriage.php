@@ -69,7 +69,7 @@ class Carriage extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'id' => 'Номер вагона',
             'carriage_type' => 'Тип вагона',
             'brutto_weight' => 'Тара',
             'status' => 'Статус',

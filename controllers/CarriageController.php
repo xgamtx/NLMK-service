@@ -74,7 +74,97 @@ class CarriageController extends Controller
             $model->status = CarriageStatus::ADOPTED;
             $model->save();
         }
-        return $this->render('view', [
+        return $this->render('view/carriageInfo', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Displays a single Carriage model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionInventory($id)
+    {
+        $model = $this->findModel($id);
+        if (($model->status == CarriageStatus::WEIGHTED) &&
+            $model->allImageDownloaded()) {
+            $model->status = CarriageStatus::ADOPTED;
+            $model->save();
+        }
+        return $this->render('view/inventory', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Displays a single Carriage model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionDisassemblingOrder($id)
+    {
+        $model = $this->findModel($id);
+        if (($model->status == CarriageStatus::WEIGHTED) &&
+            $model->allImageDownloaded()) {
+            $model->status = CarriageStatus::ADOPTED;
+            $model->save();
+        }
+        return $this->render('view/disassemblingOrder', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Displays a single Carriage model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionDisassemblingSend($id)
+    {
+        $model = $this->findModel($id);
+        if (($model->status == CarriageStatus::WEIGHTED) &&
+            $model->allImageDownloaded()) {
+            $model->status = CarriageStatus::ADOPTED;
+            $model->save();
+        }
+        return $this->render('view/disassemblingSend', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Displays a single Carriage model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionMh1($id)
+    {
+        $model = $this->findModel($id);
+        if (($model->status == CarriageStatus::WEIGHTED) &&
+            $model->allImageDownloaded()) {
+            $model->status = CarriageStatus::ADOPTED;
+            $model->save();
+        }
+        return $this->render('view/mh1', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Displays a single Carriage model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionInventoryMC($id)
+    {
+        $model = $this->findModel($id);
+        if (($model->status == CarriageStatus::WEIGHTED) &&
+            $model->allImageDownloaded()) {
+            $model->status = CarriageStatus::ADOPTED;
+            $model->save();
+        }
+        return $this->render('view/inventoryMC', [
             'model' => $model,
         ]);
     }

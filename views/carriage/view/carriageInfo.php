@@ -13,8 +13,8 @@ $this->title = $model->getName();
 $this->params['breadcrumbs'][] = ['label' => 'Список вагонов', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<?= $this->render('_navbar', [
-    'selectTabId' => 1,
+<?= $this->render('//carriage/_navbar', [
+    'selectTabId' => 0,
     'model' => $model
 ]) ?>
 <div class="carriage-view">
@@ -35,15 +35,89 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
+            [
+                'label' => 'Статус',
+                'value' => CarriageStatus::getLabelByStatusId($model->status)
+            ],
+            [
+                'label' => 'Комментарий',
+                'value' => 'Здесь можно писать комментарий'
+            ],
+            [
+                'label' => 'Дата прибытия',
+                'value' => ''
+            ],
             'id',
             'carriage_type',
+            [
+                'label' => 'Стоимость ',
+                'value' => ''
+            ],
+            'storage',
+            'warehouse',
+            [
+                'label' => 'Масса тары заявленная',
+                'value' => ''
+            ],
+            [
+                'label' => 'Масса запчастей расчётная',
+                'value' => ''
+            ],
+            [
+                'label' => 'Масса пружин и триангелей',
+                'value' => ''
+            ],
+            [
+                'label' => 'Масса тары ЖД весы',
+                'value' => ''
+            ],
+            [
+                'label' => 'Масса лома Автовесы',
+                'value' => ''
+            ],
+            [
+                'label' => 'Масса лома расчётная',
+                'value' => ''
+            ],
+            [
+                'label' => 'Масса лома на складе',
+                'value' => ''
+            ],
+            [
+                'label' => 'Недосдача лома',
+                'value' => ''
+            ],
+            [
+                'label' => 'Письмо на демонтаж',
+                'value' => ''
+            ],
+            [
+                'label' => 'Акт выполненных работ',
+                'value' => ''
+            ],
+            [
+                'label' => 'Номер акта',
+                'value' => ''
+            ],
+            [
+                'label' => 'Дата акта',
+                'value' => ''
+            ],
+            [
+                'label' => 'Номер акта выполненных работ',
+                'value' => ''
+            ],
+            [
+                'label' => 'Акт об исключении из общего вагонного парка',
+                'value' => ''
+            ],
             [
                 'label' =>'Тара',
                 'format' => 'raw',
                 'attribute' =>'brutto_weight',
                 'value' => !empty($model->brutto_weight) ?
                     $model->brutto_weight :
-                    $this->render('_setValueForm', [
+                    $this->render('//carriage/_setValueForm', [
                         'model' => $model,
                         'propertyName' => 'brutto_weight',
                         'propertyLabel' => 'Тара',
@@ -57,28 +131,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Лом',
                 'value' => $model->brutto_weight - $model->getWeight()
             ],
-            [
-                'label' => 'status',
-                'value' => CarriageStatus::getLabelByStatusId($model->status)
-            ],
-            'storage'
         ],
     ]) ?>
 
-    <?= $this->render('//wheel-set/_index', [
-        'models' => $model->wheelsets,
-        'weight' => $model->getWheelsetsWeight()
-    ]) ?>
-
-    <?= $this->render('//side-frame/_index', [
-        'models' => $model->sideFrames,
-        'weight' => $model->getSideFramesWeight()
-    ]) ?>
-
-    <?= $this->render('//bolster/_index', [
-        'models' => $model->bolsters,
-        'weight' => $model->getBolstersWeight()
-    ]) ?>
     <div><?= !empty($model->im1) ?
         "<a href='/web/{$model->im1}' target='_blank'>Изображение1</a>" :
         $this->render('//carriage/_uploadCommonFileForm', [

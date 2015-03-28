@@ -13,57 +13,13 @@ $this->title = $model->getName();
 $this->params['breadcrumbs'][] = ['label' => 'Список вагонов', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<?= $this->render('_navbar', [
+<?= $this->render('//carriage/_navbar', [
     'selectTabId' => 1,
     'model' => $model
 ]) ?>
 <div class="carriage-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'carriage_type',
-            [
-                'label' =>'Тара',
-                'format' => 'raw',
-                'attribute' =>'brutto_weight',
-                'value' => !empty($model->brutto_weight) ?
-                    $model->brutto_weight :
-                    $this->render('_setValueForm', [
-                        'model' => $model,
-                        'propertyName' => 'brutto_weight',
-                        'propertyLabel' => 'Тара',
-                        'url' => 'carriage/save-weight'
-                    ]),
-            ],[
-                'label' => 'Детали',
-                'value' => $model->getWeight()
-            ],
-            [
-                'label' => 'Лом',
-                'value' => $model->brutto_weight - $model->getWeight()
-            ],
-            [
-                'label' => 'status',
-                'value' => CarriageStatus::getLabelByStatusId($model->status)
-            ],
-            'storage'
-        ],
-    ]) ?>
 
     <?= $this->render('//wheel-set/_index', [
         'models' => $model->wheelsets,
