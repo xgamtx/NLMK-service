@@ -80,4 +80,8 @@ class Bolster extends ActiveRecord
         return $factory->short_name;
     }
 
+    public function getFactoryDictId() {
+        $factory = DictFactory::findOne($this->factory);
+        return $factory->dict_id;
+    }
 }
