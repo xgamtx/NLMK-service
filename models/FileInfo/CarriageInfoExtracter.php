@@ -31,6 +31,7 @@ class CarriageInfoExtracter extends ExtracterBase {
 
     /**
      * @param array $dirtyCarriageInfo
+     * @param int $carriageId
      * @return Carriage
      */
     public function extract(array $dirtyCarriageInfo, $carriageId) {

@@ -39,7 +39,9 @@ class CarriageListSaver {
             $carriage = $carriageList[$carriageId];
             $oldCarriage = $this->getCarriageById($carriageId);
             $newCarriage = $this->addCommonData($oldCarriage, $carriage);
-            $newCarriage->status = CarriageStatus::NEW_WITHOUT_INVENTORY;
+            if ($oldCarriage->status < CarriageStatus::NEW_WITHOUT_INVENTORY) {
+                $newCarriage->status = CarriageStatus::NEW_WITHOUT_INVENTORY;
+            }
             $newCarriage->save();
         }
     }
@@ -56,7 +58,10 @@ class CarriageListSaver {
             $carriage = $carriageList[$carriageId];
             $oldCarriage = $this->getCarriageById($carriageId);
             $newCarriage = $this->addDetailData($oldCarriage, $carriage);
-            $newCarriage->status = CarriageStatus::NEW_WITH_INVENTORY;
+            if ($oldCarriage->status < CarriageStatus::NEW_WITH_INVENTORY);
+            {
+                $newCarriage->status = CarriageStatus::NEW_WITH_INVENTORY;
+            }
             $newCarriage->save();
         }
     }
