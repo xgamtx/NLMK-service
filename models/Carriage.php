@@ -55,11 +55,10 @@ class Carriage extends ActiveRecord
     {
         return [
             [['id'], 'required'],
-            [['id', 'status'], 'integer'],
+            [['id', 'status', 'storage', 'warehouse_id'], 'integer'],
             [['brutto_weight'], 'number'],
             [['carriage_type', 'datetime_arrived'], 'string', 'max' => 20],
             [['im1', 'im2'], 'string', 'max' => 120],
-            [['storage'], 'string', 'max' => 100],
         ];
     }
 
@@ -74,7 +73,7 @@ class Carriage extends ActiveRecord
             'brutto_weight' => 'Тара',
             'status' => 'Статус',
             'storage' => 'ПЗУ',
-            'warehouse' => 'Склад',
+            'warehouse_id' => 'Склад',
             'im1' => 'Изображение1',
             'im2' => 'Изображение2',
             'datetime_arrived' => 'Время прибытия'
@@ -169,6 +168,10 @@ class Carriage extends ActiveRecord
             $this->full_weight = $this->getBolstersWeight() + $this->getWheelsetsWeight() + $this->getSideFramesWeight();
         }
         return $this->full_weight;
+    }
+
+    public function getSpringWeight() {
+        return 1;
     }
 
     public function isFullInfoEnabled() {

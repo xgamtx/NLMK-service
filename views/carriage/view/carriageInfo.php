@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Warehouse;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\models\CarriageStatus;
@@ -53,19 +54,48 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Стоимость ',
                 'value' => ''
             ],
-            'storage',
-            'warehouse',
+            [
+                'label' => 'ПЗУ',
+                'format' => 'raw',
+                'attribute' =>'storage',
+                'value' => !empty($model->storage) ?
+                    Warehouse::getNameById($model->storage) :
+                    $this->render('//carriage/_setValueWarehouse', [
+                        'model' => $model,
+                        'propertyName' => 'storage',
+                    ]),
+            ],
+            [
+                'label' => 'Склад',
+                'format' => 'raw',
+                'attribute' =>'warehouse_id',
+                'value' => !empty($model->warehouse) ?
+                    Warehouse::getNameById($model->warehouse_id) :
+                    $this->render('//carriage/_setValueWarehouse', [
+                        'model' => $model,
+                        'propertyName' => 'warehouse_id',
+                    ]),
+            ],
             [
                 'label' => 'Масса тары заявленная',
-                'value' => ''
+                'format' => 'raw',
+                'attribute' =>'brutto_weight',
+                'value' => !empty($model->brutto_weight) ?
+                    $model->brutto_weight :
+                    $this->render('//carriage/_setValueForm', [
+                        'model' => $model,
+                        'propertyName' => 'brutto_weight',
+                        'propertyLabel' => 'Тара',
+                        'url' => 'carriage/save-weight'
+                    ]),
             ],
             [
                 'label' => 'Масса запчастей расчётная',
-                'value' => ''
+                'value' => $model->getWeight()
             ],
             [
                 'label' => 'Масса пружин и триангелей',
-                'value' => ''
+                'value' => $model->getSpringWeight()
             ],
             [
                 'label' => 'Масса тары ЖД весы',
@@ -110,22 +140,6 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => 'Акт об исключении из общего вагонного парка',
                 'value' => ''
-            ],
-            [
-                'label' =>'Тара',
-                'format' => 'raw',
-                'attribute' =>'brutto_weight',
-                'value' => !empty($model->brutto_weight) ?
-                    $model->brutto_weight :
-                    $this->render('//carriage/_setValueForm', [
-                        'model' => $model,
-                        'propertyName' => 'brutto_weight',
-                        'propertyLabel' => 'Тара',
-                        'url' => 'carriage/save-weight'
-                    ]),
-            ],[
-                'label' => 'Детали',
-                'value' => $model->getWeight()
             ],
             [
                 'label' => 'Лом',

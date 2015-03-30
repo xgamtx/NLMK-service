@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use app\models\Carriage;
+use app\models\Warehouse;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CarriageSearch */
@@ -32,7 +33,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function(Carriage $model) { return "<a href='/web/carriage/view?id={$model->id}'>{$model->id}</a>";},
             ],
             'carriage_type',
-            'storage',
+            [
+                'label' => 'ПЗУ',
+                'format' => 'raw',
+                'attribute' =>'storage',
+                'value' => function(Carriage $model) {
+                    return !empty($model->storage) ? Warehouse::getNameById($model->storage) : '-';
+                },
+            ],
             [
                 'label' =>'Тара',
                 'format' => 'raw',
@@ -68,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'label' => 'Склад',
-                'value' => function(Carriage $model) { return empty($model->warehouse) ? '-' : $model->warehouse->name; }
+                'value' => function(Carriage $model) { return empty($model->warehouse) ? '-' : Warehouse::getNameById($model->warehouse->name); }
             ],
             [
                 'label' => 'Время прибытия',
