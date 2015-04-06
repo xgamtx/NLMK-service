@@ -18,8 +18,9 @@ class CarriageStatus {
     const ADOPTED = 50;
     const CONFIRMED = 60;
     const DESTROYED = 70;
-    const STORAGE = 80;
+    const WAIT_WRITE = 80;
     const ARCHIVE = 1000;
+    const CORRECT = 2000;
 
     protected static $labels = array(
         self::NEW_WITHOUT_INVENTORY => 'Новый без описи',
@@ -29,8 +30,9 @@ class CarriageStatus {
         self::ADOPTED => 'Принят по описи',
         self::CONFIRMED => 'Утвержден на демонтаж',
         self::DESTROYED => 'Демонтирован',
-        self::STORAGE => 'Склад',
+        self::WAIT_WRITE => 'На подписи',
         self::ARCHIVE => 'Архив',
+        self::CORRECT => 'Корректировка',
     );
 
     protected static $availableForChangeStage = array(
@@ -41,7 +43,7 @@ class CarriageStatus {
         self::ADOPTED => array(),
         self::CONFIRMED => array(self::ADOPTED),
         self::DESTROYED => array(self::CONFIRMED),
-        self::STORAGE => array(self::DESTROYED),
+        self::WAIT_WRITE => array(self::DESTROYED),
         self::ARCHIVE => array(
             self::NEW_WITHOUT_INVENTORY,
             self::NEW_WITH_INVENTORY,
@@ -50,7 +52,7 @@ class CarriageStatus {
             self::ADOPTED,
             self::CONFIRMED,
             self::DESTROYED,
-            self::STORAGE,
+            self::WAIT_WRITE,
         ),
     );
 

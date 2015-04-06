@@ -2,13 +2,13 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use app\models\Carriage;
-use app\models\Warehouse;
-use yii\helpers\ArrayHelper;
+use yii\db\ActiveRecord;
+use dosamigos\datepicker\DatePicker;
 
 /* @var $this yii\web\View */
-/* @var $model Carriage */
+/* @var $model ActiveRecord */
 /* @var $form yii\widgets\ActiveForm */
+/* @var $url string */
 /* @var $propertyName string */
 /* @var $currentValue string */
 
@@ -20,9 +20,19 @@ if (empty($currentValue)) $currentValue = 'Установить';
 ]);?>
 <div class="carriage-form" style="display: none">
 
-    <?php $form = ActiveForm::begin(['action' => ['carriage/update?id=' . $model->id]]); ?>
-    <?= Html::activeDropDownList($model, $propertyName,
-        ArrayHelper::map(Warehouse::find()->all(), 'id', 'name')) ?>
+    <?php $form = ActiveForm::begin(['action' => [$url . '?id=' . $model->id]]); ?>
+    <?= Html::activeHiddenInput($model, 'id');?>
+    <?= DatePicker::widget([
+        'model' => $model,
+        'attribute' => $propertyName,
+        'language' => 'ru',
+        'containerOptions' => [
+            'class' => 'date-picker',
+        ],
+        'clientOptions' => [
+            'autoclose' => true,
+        ]
+    ]);?>
     <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary btn-xs']) ?>
 
     <?php ActiveForm::end(); ?>

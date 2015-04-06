@@ -11,6 +11,7 @@ namespace app\models\FileInfo;
 use app\models\Carriage;
 use app\models\CarriageStatus;
 use app\models\FileInfo;
+use app\models\Warehouse;
 
 class CommonFileParser {
 
@@ -42,7 +43,7 @@ class CommonFileParser {
         $carriage = new Carriage();
         $carriage->id = $carriageInfo['B'];
         $carriage->carriage_type = $carriageInfo['C'];
-        $carriage->storage = $carriageInfo['E'];
+        $carriage->storage = Warehouse::getIdByName($carriageInfo['E']);
         $carriage->status = CarriageStatus::NEW_WITHOUT_INVENTORY;
         return $carriage;
     }

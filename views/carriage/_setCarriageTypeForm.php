@@ -3,13 +3,10 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\Carriage;
-use app\models\Warehouse;
-use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model Carriage */
 /* @var $form yii\widgets\ActiveForm */
-/* @var $propertyName string */
 /* @var $currentValue string */
 
 if (empty($currentValue)) $currentValue = 'Установить';
@@ -21,8 +18,11 @@ if (empty($currentValue)) $currentValue = 'Установить';
 <div class="carriage-form" style="display: none">
 
     <?php $form = ActiveForm::begin(['action' => ['carriage/update?id=' . $model->id]]); ?>
-    <?= Html::activeDropDownList($model, $propertyName,
-        ArrayHelper::map(Warehouse::find()->all(), 'id', 'name')) ?>
+    <?= Html::activeDropDownList($model, 'carriage_type',
+        [
+            'Цементовоз' => 'Цементовоз',
+            'Полувагон' => 'Полувагон'
+        ]) ?>
     <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary btn-xs']) ?>
 
     <?php ActiveForm::end(); ?>

@@ -21,6 +21,7 @@ class AppAsset extends AssetBundle
         'css/site.css',
     ];
     public $js = [
+        'js/datepicker-ru.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

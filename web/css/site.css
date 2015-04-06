@@ -117,7 +117,7 @@ a.desc:after {
     background: #ce8483;
 }
 
-.input-xs {
+.date-picker input, .input-xs {
     height: 22px;
     padding: 5px 5px;
     font-size: 12px;
@@ -125,7 +125,15 @@ a.desc:after {
     border-radius: 3px;
 }
 
-.brutto_weight_input {
+.date-picker input, .brutto_weight_input {
     width: inherit;
+    float: left;
+}
+
+.date-picker span.input-group-addon{
+    padding: 0 10px;
+}
+.date-picker {
+    width: 150px;
     float: left;
 }

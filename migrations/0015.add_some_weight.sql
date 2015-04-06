@@ -1,0 +1,10 @@
+alter table nlmkService.carriage add column weight_z_d real;
+alter table nlmkService.carriage add column weight_auto real;
+alter table nlmkService.carriage add column act_number integer;
+alter table nlmkService.carriage add column act_number_2 integer;
+alter table nlmkService.carriage add column act_image varchar(150);
+alter table nlmkService.carriage add column destroy_letter varchar(150);
+alter table nlmkService.carriage add column expulsion_act_image varchar(150);
+alter table nlmkService.carriage add column arrive_date datetime;
+alter table nlmkService.carriage add column act_date datetime;
+alter table nlmkService.carriage add column comment text;

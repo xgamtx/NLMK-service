@@ -31,6 +31,20 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Прибыл', ['set-status', 'id' => $model->id, 'new_status' => CarriageStatus::ARRIVED], [
+            'class' => 'btn btn-primary',
+            'data' => [
+                'confirm' => 'Are you sure you want to change status this item?',
+//                'method' => 'get',
+            ],
+        ]) ?>
+        <?= Html::a('Корректировка', ['set-status', 'id' => $model->id, 'new_status' => CarriageStatus::CORRECT], [
+            'class' => 'btn btn-primary',
+            'data' => [
+                'confirm' => 'Are you sure you want to change status this item?',
+//                'method' => 'get',
+            ],
+        ]) ?>
     </p>
 
     <?= DetailView::widget([
@@ -42,14 +56,37 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'label' => 'Комментарий',
-                'value' => 'Здесь можно писать комментарий'
+                'format' => 'raw',
+                'attribute' =>'comment',
+                'value' => $this->render('//carriage/_setValueForm', [
+                        'model' => $model,
+                        'propertyName' => 'comment',
+                        'propertyLabel' => 'Комментарий',
+                        'url' => 'carriage/update',
+                        'size' => '100',
+                        'currentValue' => $model->comment
+                    ]),
             ],
             [
                 'label' => 'Дата прибытия',
-                'value' => ''
+                'format' => 'raw',
+                'value' => $this->render('//carriage/_setDateValueForm', [
+                        'model' => $model,
+                        'propertyName' => 'arrive_date',
+                        'url' => 'carriage/update',
+                        'currentValue' => $model->arrive_date
+                    ]),
             ],
             'id',
-            'carriage_type',
+            [
+                'label' => 'Тип вагона',
+                'format' => 'raw',
+                'attribute' =>'carriage_type',
+                'value' => $this->render('//carriage/_setCarriageTypeForm', [
+                        'model' => $model,
+                        'currentValue' => $model->carriage_type
+                    ]),
+            ],
             [
                 'label' => 'Стоимость ',
                 'value' => ''
@@ -58,35 +95,32 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'ПЗУ',
                 'format' => 'raw',
                 'attribute' =>'storage',
-                'value' => !empty($model->storage) ?
-                    Warehouse::getNameById($model->storage) :
-                    $this->render('//carriage/_setValueWarehouse', [
+                'value' => $this->render('//carriage/_setValueWarehouse', [
                         'model' => $model,
                         'propertyName' => 'storage',
+                        'currentValue' => Warehouse::getNameById($model->storage)
                     ]),
             ],
             [
                 'label' => 'Склад',
                 'format' => 'raw',
                 'attribute' =>'warehouse_id',
-                'value' => !empty($model->warehouse) ?
-                    Warehouse::getNameById($model->warehouse_id) :
-                    $this->render('//carriage/_setValueWarehouse', [
+                'value' => $this->render('//carriage/_setValueWarehouse', [
                         'model' => $model,
                         'propertyName' => 'warehouse_id',
+                        'currentValue' => Warehouse::getNameById($model->warehouse_id)
                     ]),
             ],
             [
                 'label' => 'Масса тары заявленная',
                 'format' => 'raw',
                 'attribute' =>'brutto_weight',
-                'value' => !empty($model->brutto_weight) ?
-                    $model->brutto_weight :
-                    $this->render('//carriage/_setValueForm', [
+                'value' => $this->render('//carriage/_setValueForm', [
                         'model' => $model,
                         'propertyName' => 'brutto_weight',
                         'propertyLabel' => 'Тара',
-                        'url' => 'carriage/save-weight'
+                        'url' => 'carriage/save-weight',
+                        'currentValue' => $model->brutto_weight
                     ]),
             ],
             [
@@ -99,51 +133,105 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'label' => 'Масса тары ЖД весы',
-                'value' => ''
+                'format' => 'raw',
+                'attribute' =>'weight_z_d',
+                'value' => $this->render('//carriage/_setValueForm', [
+                        'model' => $model,
+                        'propertyName' => 'weight_z_d',
+                        'propertyLabel' => 'ЖД весы',
+                        'url' => 'carriage/save-weight',
+                        'currentValue' => $model->weight_z_d
+                    ]),
             ],
             [
                 'label' => 'Масса лома Автовесы',
-                'value' => ''
+                'format' => 'raw',
+                'attribute' =>'weight_auto',
+                'value' => $this->render('//carriage/_setValueForm', [
+                        'model' => $model,
+                        'propertyName' => 'weight_auto',
+                        'propertyLabel' => 'автовесы',
+                        'url' => 'carriage/update',
+                        'currentValue' => $model->weight_auto
+                    ]),
             ],
             [
                 'label' => 'Масса лома расчётная',
-                'value' => ''
-            ],
-            [
-                'label' => 'Масса лома на складе',
-                'value' => ''
+                'value' => $model->getCalculateWasteWeight()
             ],
             [
                 'label' => 'Недосдача лома',
-                'value' => ''
+                'value' => $model->getCalculateWasteWeight() - $model->getWeight()
             ],
             [
                 'label' => 'Письмо на демонтаж',
-                'value' => ''
+                'format' => 'raw',
+                'value' => !empty($model->destroy_letter) ?
+                "<a href='/web/{$model->destroy_letter}' target='_blank'>Просмотр</a>" :
+                $this->render('//carriage/_uploadCommonFileForm', [
+                    'model' => $model,
+                    'url' => 'carriage/save-image',
+                    'imageModel' => new UploadImage(),
+                    'propertyName' => 'destroy_letter'
+                ])
             ],
             [
                 'label' => 'Акт выполненных работ',
-                'value' => ''
+                'format' => 'raw',
+                'value' => !empty($model->act_image) ?
+                    "<a href='/web/{$model->act_image}' target='_blank'>Просмотр</a>" :
+                    $this->render('//carriage/_uploadCommonFileForm', [
+                        'model' => $model,
+                        'url' => 'carriage/save-image',
+                        'imageModel' => new UploadImage(),
+                        'propertyName' => 'act_image'
+                    ])
             ],
             [
                 'label' => 'Номер акта',
-                'value' => ''
-            ],
-            [
-                'label' => 'Дата акта',
-                'value' => ''
+                'format' => 'raw',
+                'attribute' =>'act_number',
+                'value' => $this->render('//carriage/_setValueForm', [
+                        'model' => $model,
+                        'propertyName' => 'act_number',
+                        'propertyLabel' => 'Номер',
+                        'url' => 'carriage/update',
+                        'currentValue' => $model->act_number
+                    ]),
             ],
             [
                 'label' => 'Номер акта выполненных работ',
-                'value' => ''
+                'format' => 'raw',
+                'attribute' =>'act_number_2',
+                'value' => $this->render('//carriage/_setValueForm', [
+                        'model' => $model,
+                        'propertyName' => 'act_number_2',
+                        'propertyLabel' => 'Номер',
+                        'url' => 'carriage/update',
+                        'currentValue' => $model->act_number_2
+                    ]),
+            ],
+            [
+                'label' => 'Дата акта',
+                'format' => 'raw',
+                'value' => $this->render('//carriage/_setDateValueForm', [
+                        'model' => $model,
+                        'propertyName' => 'act_date',
+                        'url' => 'carriage/update',
+                        'currentValue' => $model->act_date,
+                    ]),
             ],
             [
                 'label' => 'Акт об исключении из общего вагонного парка',
-                'value' => ''
-            ],
-            [
-                'label' => 'Лом',
-                'value' => $model->brutto_weight - $model->getWeight()
+                'format' => 'raw',
+                'value' => !empty($model->expulsion_act_image) ?
+                    "<a href='/web/{$model->expulsion_act_image}' target='_blank'>Просмотр</a>" :
+                    $this->render('//carriage/_uploadCommonFileForm', [
+                        'model' => $model,
+                        'url' => 'carriage/save-image',
+                        'imageModel' => new UploadImage(),
+                        'propertyName' => 'expulsion_act_image'
+                    ])
             ],
         ],
     ]) ?>

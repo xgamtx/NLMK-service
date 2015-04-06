@@ -76,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'label' => 'Склад',
-                'value' => function(Carriage $model) { return empty($model->warehouse) ? '-' : Warehouse::getNameById($model->warehouse->name); }
+                'value' => function(Carriage $model) { return empty($model->warehouse) ? '-' : Warehouse::getNameById($model->warehouse->id); }
             ],
             [
                 'label' => 'Время прибытия',

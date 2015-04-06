@@ -11,6 +11,8 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property string $carriage_type
  * @property double $brutto_weight
+ * @property double $weight_z_d
+ * @property double $weight_auto
  * @property integer $status
  * @property string $storage
  * @property float $full_weight
@@ -20,17 +22,24 @@ use yii\db\ActiveRecord;
  * @property string $im1
  * @property string $im2
  * @property string $datetime_arrived
+ * @property int $act_number
+ * @property int $act_number_2
+ * @property string $destroy_letter
+ * @property string $act_image
+ * @property string $expulsion_act_image
+ * @property string $act_date
+ * @property string $arrive_date
+ * @property string $comment
  *
  * @property Bolster[] $bolsters
  * @property Comment[] $comments
  * @property SideFrame[] $sideFrames
  * @property WheelSet[] $wheelsets
  * @property Log[] $logs
- * @property Warehouse $warehouse
+ * @property Warehouse $warehouse_id
  */
 class Carriage extends ActiveRecord
 {
-
     const WHEELSETS = 'wheelsets';
     const SIDE_FRAMES = 'sideFrames';
     const BOLSTERS = 'bolsters';
@@ -55,10 +64,12 @@ class Carriage extends ActiveRecord
     {
         return [
             [['id'], 'required'],
-            [['id', 'status', 'storage', 'warehouse_id'], 'integer'],
-            [['brutto_weight'], 'number'],
+            [['id', 'status', 'storage', 'warehouse_id', 'act_number', 'act_number_2'], 'integer'],
+            [['brutto_weight', 'weight_auto', 'weight_z_d'], 'number'],
             [['carriage_type', 'datetime_arrived'], 'string', 'max' => 20],
-            [['im1', 'im2'], 'string', 'max' => 120],
+            [['im1', 'im2', 'comment'], 'string', 'max' => 120],
+            [['act_image', 'destroy_letter', 'expulsion_act_image'], 'string', 'max' => 150],
+            [['act_date', 'arrive_date'], 'string', 'max' => 20],
         ];
     }
 
@@ -76,7 +87,17 @@ class Carriage extends ActiveRecord
             'warehouse_id' => 'Склад',
             'im1' => 'Изображение1',
             'im2' => 'Изображение2',
-            'datetime_arrived' => 'Время прибытия'
+            'datetime_arrived' => 'Время прибытия',
+            'weight_auto' => 'Масса тары ЖД весы',
+            'weight_z_d' => 'Масса лома автовесы',
+            'act_number' => 'Номер акта',
+            'act_number_2' => 'Номер акта выполненных работ',
+            'act_image' => 'Акт выполненных работ',
+            'destroy_letter' => 'Письмо на демонтаж',
+            'expulsion_act_image' => 'Акт об исключении из общего вагонного парка',
+            'act_date' => 'Дата акта',
+            'arrive_date' => 'Дата прибытия',
+            'comment' => 'Комментарий',
         ];
     }
 
@@ -199,6 +220,20 @@ class Carriage extends ActiveRecord
         return $result;
     }
 
+    public function beforeSave($insert) {
+        if (parent::beforeSave($insert)) {
+            if (!empty($this->act_date)) {
+                $this->act_date = DateConverter::convertToDb($this->act_date);
+            }
+            if (!empty($this->arrive_date)) {
+                $this->arrive_date = DateConverter::convertToDb($this->arrive_date);
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function beforeDelete() {
         if (parent::beforeDelete()) {
             foreach ($this->wheelsets as $wheelset) {
@@ -246,6 +281,16 @@ class Carriage extends ActiveRecord
         return true;
     }
 
+    public static function getFieldNameByCode($attributeCode) {
+        $carriage = new Carriage();
+        $attributes = $carriage->attributeLabels();
+        if (isset($attributes[$attributeCode])) {
+            return $attributes[$attributeCode];
+        }
+
+        return null;
+    }
+
     public function changeStage($stageId) {
         if (CarriageStatus::isAvailableForChangeToStage($this->status, $stageId)) {
             $message = "Изменен статус с '" . CarriageStatus::getLabelByStatusId($this->status) .
@@ -260,5 +305,10 @@ class Carriage extends ActiveRecord
         }
 
         return false;
+    }
+
+    public function getCalculateWasteWeight() {
+        $fullWeight = min($this->brutto_weight, $this->weight_z_d);
+        return $fullWeight - $this->weight_auto - $this->getSpringWeight();
     }
 }
