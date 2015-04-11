@@ -1,8 +1,7 @@
 <?php
 
+use app\models\UploadCarriagePhoto;
 use yii\helpers\Html;
-use yii\widgets\DetailView;
-use app\models\CarriageStatus;
 use app\models\Carriage;
 use app\models\UploadImage;
 
@@ -51,11 +50,52 @@ $this->params['breadcrumbs'][] = $this->title;
             'url' => 'carriage/save-image',
             'imageModel' => new UploadImage(),
             'propertyName' => 'im2'
-        ]); ?></div>
+        ]); ?>
+    </div>
+    <div class="wheel-set-block">
+        <table class="table table-striped table-bordered detail-view">
+            <tbody>
+            <tr>
+                <td>Фото вагона</td>
+                <td>
+                    <? if (empty($model->carriagePhotos)): ?>
+                        <?= $this->render(
+                            '//carriage/_uploadCarriagePhoto',
+                            [
+                                'model' => $model,
+                                'url' => 'carriage/upload-carriage-photo-list',
+                                'imageModel' => new UploadCarriagePhoto(),
+                            ]
+                        );?>
+                    <? else: ?>
+                        <? foreach ($model->carriagePhotos as $key => $carriagePhoto): ?>
+                            <a href="/web/<?= $carriagePhoto->name; ?>"><?= $key + 1; ?></a>
+                        <? endforeach; ?>
+                    <? endif; ?>
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Опись номерных деталей</td>
+                <td><?= !empty($model->inventory_image) ?
+                        "<a href='/web/{$model->inventory_image}' target='_blank'>Просмотр</a>" :
+                        $this->render('//carriage/_uploadCommonFileForm', [
+                            'model' => $model,
+                            'url' => 'carriage/save-image',
+                            'imageModel' => new UploadImage(),
+                            'propertyName' => 'inventory_image'
+                        ]); ?>
+                </td>
+                <td>Имя мастера</td>
+                <td>Дата</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
     <div>
         <?= $this->render('//log/_index', [
             'models' => $model->getLogs()->all(),
         ]); ?>
     </div>
-
 </div>

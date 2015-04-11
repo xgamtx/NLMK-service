@@ -2,9 +2,11 @@
 
 namespace app\controllers;
 
+use app\models\CarriagePhoto;
 use app\models\CarriageStatus;
 use app\models\DateConverter;
 use app\models\LogProvider;
+use app\models\UploadCarriagePhoto;
 use Yii;
 use app\models\Carriage;
 use app\models\CarriageSearch;
@@ -267,6 +269,37 @@ class CarriageController extends Controller
         }
 
         return $this->redirect(['//carriage/view', 'id' => $model->id]);
+    }
+
+    public function actionUploadCarriagePhotoList($id)
+    {
+        $model = $this->findModel($id);
+
+        if (Yii::$app->request->isPost) {
+            $imageModel = new UploadCarriagePhoto();
+            $imageModel->file = UploadedFile::getInstances($imageModel, 'file');
+            $path = 'uploads/' . $model->id . '/carriage_photo';
+            PathCreator::createPath($path);
+            /** @var UploadedFile $file */
+            $photoList = array();
+            foreach ($imageModel->file as $ind => $file) {
+                $address = $path . '/' . $ind . '.' . $file->name . '.' . $file->getExtension();
+                if ($file->saveAs($address)) {
+                    $photo = new CarriagePhoto();
+                    $photo->carriage_id = $model->id;
+                    $photo->name = $address;
+                    $photo->save();
+                    $photoList[] = $photo;
+                }
+            }
+            $model->populateRelation(Carriage::CARRIAGE_PHOTO, $photoList);
+        }
+
+        return $this->redirect(['//carriage/inventory', 'id' => $model->id]);
+    }
+
+    protected function saveFile(UploadedFile $file) {
+
     }
 
     protected function editCarriageStatus(Carriage $model, $imageType) {

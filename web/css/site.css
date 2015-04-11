@@ -137,3 +137,7 @@ a.desc:after {
     width: 150px;
     float: left;
 }
+
+.footer-inventory td {
+    padding: 10px;
+}

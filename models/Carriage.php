@@ -29,12 +29,14 @@ use yii\db\ActiveRecord;
  * @property string $expulsion_act_image
  * @property string $act_date
  * @property string $arrive_date
+ * @property string $inventory_image
  * @property string $comment
  *
  * @property Bolster[] $bolsters
  * @property Comment[] $comments
  * @property SideFrame[] $sideFrames
  * @property WheelSet[] $wheelsets
+ * @property CarriagePhoto[] $carriagePhotos
  * @property Log[] $logs
  * @property Warehouse $warehouse_id
  */
@@ -43,6 +45,7 @@ class Carriage extends ActiveRecord
     const WHEELSETS = 'wheelsets';
     const SIDE_FRAMES = 'sideFrames';
     const BOLSTERS = 'bolsters';
+    const CARRIAGE_PHOTO = 'carriagePhoto';
 
     protected $full_weight;
     protected $wheelset_weight;
@@ -67,7 +70,7 @@ class Carriage extends ActiveRecord
             [['id', 'status', 'storage', 'warehouse_id', 'act_number', 'act_number_2'], 'integer'],
             [['brutto_weight', 'weight_auto', 'weight_z_d'], 'number'],
             [['carriage_type', 'datetime_arrived'], 'string', 'max' => 20],
-            [['im1', 'im2', 'comment'], 'string', 'max' => 120],
+            [['im1', 'im2', 'comment', 'inventory_image'], 'string', 'max' => 120],
             [['act_image', 'destroy_letter', 'expulsion_act_image'], 'string', 'max' => 150],
             [['act_date', 'arrive_date'], 'string', 'max' => 20],
         ];
@@ -98,6 +101,7 @@ class Carriage extends ActiveRecord
             'act_date' => 'Дата акта',
             'arrive_date' => 'Дата прибытия',
             'comment' => 'Комментарий',
+            'inventory_image' => 'Опись номерных деталей',
         ];
     }
 
@@ -131,6 +135,14 @@ class Carriage extends ActiveRecord
     public function getWheelsets()
     {
         return $this->hasMany(WheelSet::className(), ['carriage_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCarriagePhotos()
+    {
+        return $this->hasMany(CarriagePhoto::className(), ['carriage_id' => 'id']);
     }
 
     /**
