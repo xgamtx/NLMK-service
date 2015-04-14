@@ -10,11 +10,13 @@ namespace app\models;
 
 
 class DateConverter {
-    public static function convertToReadable($DbDate) {
-        if (empty($DbDate)) {
-            return $DbDate;
+    protected static $monthRu = array('январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь');
+
+    public static function convertToReadable($dbDate) {
+        if (empty($dbDate)) {
+            return $dbDate;
         }
-        $extractedDate = new \DateTime($DbDate);
+        $extractedDate = new \DateTime($dbDate);
         return $extractedDate->format('d.m.Y');
     }
 
@@ -24,5 +26,9 @@ class DateConverter {
         }
         $extractedDate = new \DateTime($readableDate);
         return $extractedDate->format('Y-m-d');
+    }
+
+    public static function getMonth($monthNum) {
+        return self::$monthRu[$monthNum];
     }
 }

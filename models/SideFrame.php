@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use app\models\WeightRetriever\SideFrameWeightRetriever;
 use Yii;
 use yii\db\ActiveRecord;
 
@@ -18,6 +17,7 @@ use yii\db\ActiveRecord;
  * @property string $image_src
  *
  * @property Carriage $carriage
+ * @property CarriagePart $partInfo
  */
 class SideFrame extends ActiveRecord
 {
@@ -72,17 +72,26 @@ class SideFrame extends ActiveRecord
     }
 
     public function getWeight() {
-        return SideFrameWeightRetriever::getWeightSideFrame($this);
+        return $this->getPartInfo()->weight;
     }
 
     public function getFactoryName() {
+        /** @var DictFactory $factory */
         $factory = DictFactory::findOne($this->factory);
         return $factory->short_name;
     }
 
     public function getFactoryDictId() {
+        /** @var DictFactory $factory */
         $factory = DictFactory::findOne($this->factory);
         return $factory->dict_id;
+    }
+
+    /**
+     * @return CarriagePart
+     */
+    public function getPartInfo() {
+        return CarriagePart::find()->where(array('feature' => $this->produced_year, 'part_type' => CarriagePart::SIDE_FRAME_TYPE))->one();
     }
 
 }

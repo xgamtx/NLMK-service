@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use app\models\WeightRetriever\WheelSetWeightRetriever;
 use Yii;
 use yii\db\ActiveRecord;
 
@@ -20,6 +19,7 @@ use yii\db\ActiveRecord;
  * @property string $image_src
  *
  * @property Carriage $carriage
+ * @property CarriagePart $partInfo
  */
 class WheelSet extends ActiveRecord
 {
@@ -80,17 +80,30 @@ class WheelSet extends ActiveRecord
     }
 
     public function getWeight() {
-        return WheelSetWeightRetriever::getWeightWheelSet($this);
+        return $this->getPartInfo()->weight;
     }
 
     public function getFactoryName() {
+        /** @var DictFactory $factory */
         $factory = DictFactory::findOne($this->factory);
         return $factory->short_name;
     }
 
     public function getFactoryDictId() {
+        /** @var DictFactory $factory */
         $factory = DictFactory::findOne($this->factory);
         return $factory->dict_id;
+    }
+
+    public function getMinWidth() {
+        return min($this->left_wheel_width, $this->right_wheel_width);
+    }
+
+    /**
+     * @return CarriagePart
+     */
+    public function getPartInfo() {
+        return CarriagePart::find()->where(array('feature' => $this->getMinWidth(), 'part_type' => CarriagePart::WHEELSET_TYPE))->one();
     }
 
 }

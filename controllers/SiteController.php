@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use PHPExcel_IOFactory;
+use app\models\Carriage;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -92,13 +92,6 @@ class SiteController extends Controller
 
     public function actionAbout()
     {
-        $inputFileName = Yii::$app->basePath . '/web/Заявка на демонтаж грузового вагона.xlsx';
-        $objPHPExcel = PHPExcel_IOFactory::load($inputFileName);
-
-        /** @var \PHPExcel_Writer_HTML $objWriter */
-        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'HTML');
-//        $objWriter->setUseInlineCss();
-        $objWriter->save('Заявка на демонтаж грузового вагона.html');
         if (!Yii::$app->user->can('about')) {
             throw new \InvalidArgumentException('Access denied');
         }

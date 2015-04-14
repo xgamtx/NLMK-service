@@ -2,6 +2,10 @@
 
 namespace app\controllers;
 
+use app\models\Act\DisassemblingOrder;
+use app\models\Act\DisassemblingSend;
+use app\models\Act\InventoryMC;
+use app\models\Act\Mh1;
 use app\models\CarriagePhoto;
 use app\models\CarriageStatus;
 use app\models\DateConverter;
@@ -22,6 +26,11 @@ use app\models\PathCreator;
  */
 class CarriageController extends Controller
 {
+
+    const INVENTORY_M_C = 'inventoryMC';
+    const M_H_1 = 'MH1';
+    const DISASSEMBLING_ORDER = 'disassemblingOrder';
+    const DISASSEMBLING_SEND = 'disassemblingSend';
     public function behaviors()
     {
         return [
@@ -108,13 +117,18 @@ class CarriageController extends Controller
     public function actionDisassemblingOrder($id)
     {
         $model = $this->findModel($id);
-        if (($model->status == CarriageStatus::WEIGHTED) &&
-            $model->allImageDownloaded()) {
-            $model->status = CarriageStatus::ADOPTED;
-            $model->save();
+        $contentFile = '';
+        if (!empty($model)) {
+            $act = new DisassemblingOrder();
+            $act->convert($model);
+            $htmlFilePath = Yii::$app->basePath . "/web/act/{$id}/disassemblingOrder.html";
+            PathCreator::createPath("act/{$id}");
+            $act->save($htmlFilePath, InventoryMC::HTML);
+            $contentFile = file_get_contents($htmlFilePath);
         }
         return $this->render('view/disassemblingOrder', [
             'model' => $model,
+            'content' => $contentFile
         ]);
     }
 
@@ -126,13 +140,18 @@ class CarriageController extends Controller
     public function actionDisassemblingSend($id)
     {
         $model = $this->findModel($id);
-        if (($model->status == CarriageStatus::WEIGHTED) &&
-            $model->allImageDownloaded()) {
-            $model->status = CarriageStatus::ADOPTED;
-            $model->save();
+        $contentFile = '';
+        if (!empty($model)) {
+            $act = new DisassemblingSend();
+            $act->convert($model);
+            $htmlFilePath = Yii::$app->basePath . "/web/act/{$id}/disassemblingSend.html";
+            PathCreator::createPath("act/{$id}");
+            $act->save($htmlFilePath, InventoryMC::HTML);
+            $contentFile = file_get_contents($htmlFilePath);
         }
         return $this->render('view/disassemblingSend', [
             'model' => $model,
+            'content' => $contentFile
         ]);
     }
 
@@ -144,13 +163,18 @@ class CarriageController extends Controller
     public function actionMh1($id)
     {
         $model = $this->findModel($id);
-        if (($model->status == CarriageStatus::WEIGHTED) &&
-            $model->allImageDownloaded()) {
-            $model->status = CarriageStatus::ADOPTED;
-            $model->save();
+        $contentFile = '';
+        if (!empty($model)) {
+            $act = new Mh1();
+            $act->convert($model);
+            $htmlFilePath = Yii::$app->basePath . "/web/act/{$id}/Mh1.html";
+            PathCreator::createPath("act/{$id}");
+            $act->save($htmlFilePath, InventoryMC::HTML);
+            $contentFile = file_get_contents($htmlFilePath);
         }
         return $this->render('view/mh1', [
             'model' => $model,
+            'content' => $contentFile
         ]);
     }
 
@@ -162,14 +186,59 @@ class CarriageController extends Controller
     public function actionInventoryMC($id)
     {
         $model = $this->findModel($id);
-        if (($model->status == CarriageStatus::WEIGHTED) &&
-            $model->allImageDownloaded()) {
-            $model->status = CarriageStatus::ADOPTED;
-            $model->save();
+        $contentFile = '';
+        if (!empty($model)) {
+            $act = new InventoryMC();
+            $act->convert($model);
+            $htmlFilePath = Yii::$app->basePath . "/web/act/{$id}/inventoryMC.html";
+            PathCreator::createPath("act/{$id}");
+            $act->save($htmlFilePath, InventoryMC::HTML);
+            $contentFile = file_get_contents($htmlFilePath);
         }
         return $this->render('view/inventoryMC', [
             'model' => $model,
+            'content' => $contentFile,
         ]);
+    }
+
+    public function actionSaveXls($id, $type) {
+        $model = $this->findModel($id);
+        if (!empty($model)) {
+            switch ($type) {
+                case self::INVENTORY_M_C:
+                    $act = new InventoryMC();
+                    $xlsFilePath = Yii::$app->basePath . "/web/act/{$id}/inventoryMC.xlsx";
+                    $xlsFileName = $id . '.Опись материальной ценности.xlsx';
+                    break;
+                case self::M_H_1:
+                    $act = new Mh1();
+                    $xlsFilePath = Yii::$app->basePath . "/web/act/{$id}/MH1.xlsx";
+                    $xlsFileName = $id . '.МХ-1.xlsx';
+                    break;
+                case self::DISASSEMBLING_ORDER:
+                    $act = new DisassemblingOrder();
+                    $xlsFilePath = Yii::$app->basePath . "/web/act/{$id}/DisassemblingOrder.xlsx";
+                    $xlsFileName = $id . '.Акт передачи вагона на демонтаж.xlsx';
+                    break;
+                case self::DISASSEMBLING_SEND:
+                    $act = new DisassemblingSend();
+                    $xlsFilePath = Yii::$app->basePath . "/web/act/{$id}/DisassemblingSend.xlsx";
+                    $xlsFileName = $id . '.Заявка на демонтаж.xlsx';
+                    break;
+                default:
+                    throw new \Exception("Incorrect act type [{$type}]");
+
+            }
+            $act->convert($model);
+            $act->save($xlsFilePath, InventoryMC::EXCEL);
+            header('Content-Disposition: attachment; filename=' . $xlsFileName );
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Length: ' . filesize($xlsFilePath));
+            header('Content-Transfer-Encoding: binary');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            readfile($xlsFilePath);
+        }
     }
 
     /**

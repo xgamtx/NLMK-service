@@ -4,7 +4,6 @@ namespace app\models;
 
 use Yii;
 use yii\db\ActiveRecord;
-use app\models\WeightRetriever\BolsterWeightRetriever;
 
 /**
  * This is the model class for table "bolster".
@@ -18,6 +17,7 @@ use app\models\WeightRetriever\BolsterWeightRetriever;
  * @property string $image_src
  *
  * @property Carriage $carriage
+ * @property CarriagePart $partInfo
  */
 class Bolster extends ActiveRecord
 {
@@ -72,16 +72,25 @@ class Bolster extends ActiveRecord
     }
 
     public function getWeight() {
-        return BolsterWeightRetriever::getWeightBolster($this);
+        return $this->getPartInfo()->weight;
     }
 
     public function getFactoryName() {
+        /** @var DictFactory $factory */
         $factory = DictFactory::findOne($this->factory);
         return $factory->short_name;
     }
 
     public function getFactoryDictId() {
+        /** @var DictFactory $factory */
         $factory = DictFactory::findOne($this->factory);
         return $factory->dict_id;
+    }
+
+    /**
+     * @return CarriagePart
+     */
+    public function getPartInfo() {
+        return CarriagePart::find()->where(array('feature' => $this->produced_year, 'part_type' => CarriagePart::BOLSTER_TYPE))->one();
     }
 }
