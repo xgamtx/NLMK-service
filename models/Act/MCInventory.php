@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: vasilij
  * Date: 11.04.15
- * Time: 21:16
+ * Time: 21:51
  */
 
 namespace app\models\Act;
@@ -15,8 +15,8 @@ use app\models\WheelSet;
 use app\models\Bolster;
 use app\models\SideFrame;
 
-class DisassemblingSend extends BaseAct {
-    protected $actTemplatePath = '/web/disa2.xlsx';
+class MCInventory extends BaseAct {
+    protected $actTemplatePath = '/web/disa4.xlsx';
 
     protected function setModel(Carriage $carriage) {
         /** @var WheelSet[] $wheelSets */
@@ -35,6 +35,10 @@ class DisassemblingSend extends BaseAct {
             '{wheelset_2_num}' => empty($wheelSets[1]->real_id) ? $wheelSets[1]->id : $wheelSets[1]->real_id,
             '{wheelset_3_num}' => empty($wheelSets[2]->real_id) ? $wheelSets[2]->id : $wheelSets[2]->real_id,
             '{wheelset_4_num}' => empty($wheelSets[3]->real_id) ? $wheelSets[3]->id : $wheelSets[3]->real_id,
+            '{wheelset_1_description}' => $wheelSets[0]->getPartInfo()->description,
+            '{wheelset_2_description}' => $wheelSets[1]->getPartInfo()->description,
+            '{wheelset_3_description}' => $wheelSets[2]->getPartInfo()->description,
+            '{wheelset_4_description}' => $wheelSets[3]->getPartInfo()->description,
             '{wheelset_1_factory_num}' => $wheelSets[0]->factory,
             '{wheelset_2_factory_num}' => $wheelSets[1]->factory,
             '{wheelset_3_factory_num}' => $wheelSets[2]->factory,
@@ -53,6 +57,8 @@ class DisassemblingSend extends BaseAct {
             '{wheelset_4_type}' => $wheelSets[3]->getWheelSetType(),
             '{bolster_1_num}' => empty($bolsters[0]->real_id) ? $bolsters[0]->id : $bolsters[0]->real_id,
             '{bolster_2_num}' => empty($bolsters[1]->real_id) ? $bolsters[1]->id : $bolsters[1]->real_id,
+            '{bolster_1_description}' => $bolsters[0]->getPartInfo()->description,
+            '{bolster_2_description}' => $bolsters[1]->getPartInfo()->description,
             '{bolster_1_factory_num}' => $bolsters[0]->factory,
             '{bolster_2_factory_num}' => $bolsters[1]->factory,
             '{bolster_1_factory_year}' => $bolsters[0]->produced_year,
@@ -61,6 +67,10 @@ class DisassemblingSend extends BaseAct {
             '{side_frame_2_num}' => empty($sideFrames[1]->real_id) ? $sideFrames[1]->id : $sideFrames[1]->real_id,
             '{side_frame_3_num}' => empty($sideFrames[2]->real_id) ? $sideFrames[2]->id : $sideFrames[2]->real_id,
             '{side_frame_4_num}' => empty($sideFrames[3]->real_id) ? $sideFrames[3]->id : $sideFrames[3]->real_id,
+            '{side_frame_1_description}' => $sideFrames[0]->getPartInfo()->description,
+            '{side_frame_2_description}' => $sideFrames[1]->getPartInfo()->description,
+            '{side_frame_3_description}' => $sideFrames[2]->getPartInfo()->description,
+            '{side_frame_4_description}' => $sideFrames[3]->getPartInfo()->description,
             '{side_frame_1_factory_num}' => $sideFrames[0]->factory,
             '{side_frame_2_factory_num}' => $sideFrames[1]->factory,
             '{side_frame_3_factory_num}' => $sideFrames[2]->factory,
@@ -69,6 +79,7 @@ class DisassemblingSend extends BaseAct {
             '{side_frame_2_factory_year}' => $sideFrames[1]->produced_year,
             '{side_frame_3_factory_year}' => $sideFrames[2]->produced_year,
             '{side_frame_4_factory_year}' => $sideFrames[3]->produced_year,
+            '{act_number2}' => $carriage->act_number_2,
         );
     }
 }

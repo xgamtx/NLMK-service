@@ -55,10 +55,10 @@ class Mh1 extends BaseAct {
             '{wheelset_2_width}' => min($wheelSets[1]->left_wheel_width, $wheelSets[1]->right_wheel_width),
             '{wheelset_3_width}' => min($wheelSets[2]->left_wheel_width, $wheelSets[2]->right_wheel_width),
             '{wheelset_4_width}' => min($wheelSets[3]->left_wheel_width, $wheelSets[3]->right_wheel_width),
-            '{wheelset_1_type}' => $wheelSets[0]->factory, // todo сделать тип вагона
-            '{wheelset_2_type}' => $wheelSets[1]->factory, // todo сделать тип вагона
-            '{wheelset_3_type}' => $wheelSets[2]->factory, // todo сделать тип вагона
-            '{wheelset_4_type}' => $wheelSets[3]->factory, // todo сделать тип вагона
+            '{wheelset_1_type}' => $wheelSets[0]->getWheelSetType(),
+            '{wheelset_2_type}' => $wheelSets[1]->getWheelSetType(),
+            '{wheelset_3_type}' => $wheelSets[2]->getWheelSetType(),
+            '{wheelset_4_type}' => $wheelSets[3]->getWheelSetType(),
             '{bolster_1_num}' => empty($bolsters[0]->real_id) ? $bolsters[0]->id : $bolsters[0]->real_id,
             '{bolster_2_num}' => empty($bolsters[1]->real_id) ? $bolsters[1]->id : $bolsters[1]->real_id,
             '{bolster_1_factory_num}' => $bolsters[0]->factory,

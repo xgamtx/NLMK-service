@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use app\models\Act\DisassemblingOrder;
 use app\models\Act\DisassemblingSend;
-use app\models\Act\InventoryMC;
+use app\models\Act\MCInventory;
 use app\models\Act\Mh1;
 use app\models\CarriagePhoto;
 use app\models\CarriageStatus;
@@ -123,7 +123,7 @@ class CarriageController extends Controller
             $act->convert($model);
             $htmlFilePath = Yii::$app->basePath . "/web/act/{$id}/disassemblingOrder.html";
             PathCreator::createPath("act/{$id}");
-            $act->save($htmlFilePath, InventoryMC::HTML);
+            $act->save($htmlFilePath, MCInventory::HTML);
             $contentFile = file_get_contents($htmlFilePath);
         }
         return $this->render('view/disassemblingOrder', [
@@ -146,7 +146,7 @@ class CarriageController extends Controller
             $act->convert($model);
             $htmlFilePath = Yii::$app->basePath . "/web/act/{$id}/disassemblingSend.html";
             PathCreator::createPath("act/{$id}");
-            $act->save($htmlFilePath, InventoryMC::HTML);
+            $act->save($htmlFilePath, MCInventory::HTML);
             $contentFile = file_get_contents($htmlFilePath);
         }
         return $this->render('view/disassemblingSend', [
@@ -169,7 +169,7 @@ class CarriageController extends Controller
             $act->convert($model);
             $htmlFilePath = Yii::$app->basePath . "/web/act/{$id}/Mh1.html";
             PathCreator::createPath("act/{$id}");
-            $act->save($htmlFilePath, InventoryMC::HTML);
+            $act->save($htmlFilePath, MCInventory::HTML);
             $contentFile = file_get_contents($htmlFilePath);
         }
         return $this->render('view/mh1', [
@@ -188,11 +188,11 @@ class CarriageController extends Controller
         $model = $this->findModel($id);
         $contentFile = '';
         if (!empty($model)) {
-            $act = new InventoryMC();
+            $act = new MCInventory();
             $act->convert($model);
             $htmlFilePath = Yii::$app->basePath . "/web/act/{$id}/inventoryMC.html";
             PathCreator::createPath("act/{$id}");
-            $act->save($htmlFilePath, InventoryMC::HTML);
+            $act->save($htmlFilePath, MCInventory::HTML);
             $contentFile = file_get_contents($htmlFilePath);
         }
         return $this->render('view/inventoryMC', [
@@ -206,7 +206,7 @@ class CarriageController extends Controller
         if (!empty($model)) {
             switch ($type) {
                 case self::INVENTORY_M_C:
-                    $act = new InventoryMC();
+                    $act = new MCInventory();
                     $xlsFilePath = Yii::$app->basePath . "/web/act/{$id}/inventoryMC.xlsx";
                     $xlsFileName = $id . '.Опись материальной ценности.xlsx';
                     break;
@@ -230,7 +230,7 @@ class CarriageController extends Controller
 
             }
             $act->convert($model);
-            $act->save($xlsFilePath, InventoryMC::EXCEL);
+            $act->save($xlsFilePath, MCInventory::EXCEL);
             header('Content-Disposition: attachment; filename=' . $xlsFileName );
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
             header('Content-Length: ' . filesize($xlsFilePath));

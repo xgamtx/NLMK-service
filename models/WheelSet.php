@@ -80,9 +80,6 @@ class WheelSet extends ActiveRecord
     }
 
     public function getWeight() {
-        if ($this->carriage_id == 55247621) {
-            $zz = 1;
-        }
         return $this->getPartInfo()->weight;
     }
 
@@ -107,6 +104,13 @@ class WheelSet extends ActiveRecord
      */
     public function getPartInfo() {
         return CarriagePart::find()->where(array('feature' => $this->getMinWidth(), 'part_type' => CarriagePart::WHEELSET_TYPE))->one();
+    }
+
+    public function getWheelSetType() {
+        if ($this->getMinWidth() < 35) {
+            return '0';
+        }
+        return 'ГОСТ';
     }
 
 }
