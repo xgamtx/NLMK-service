@@ -121,6 +121,8 @@ class DetailFileParserNew extends ExtracterBase {
             return $matches[1];
         } elseif (preg_match('/Акт технического состояния грузового вагона № (.*)/', $cellContent, $matches)) {
             return $matches[1];
+        } elseif (preg_match('/Опись номерных деталей  вагона №([0-9]*)./', $cellContent, $matches)) {
+            return $matches[1];
         } else {
             return null;
         }

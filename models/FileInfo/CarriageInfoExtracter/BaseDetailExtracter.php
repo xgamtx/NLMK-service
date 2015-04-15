@@ -53,8 +53,9 @@ class BaseDetailExtracter extends ExtracterBase {
     }
 
     protected function extractFactoryId($factoryContent) {
-        if (is_numeric($factoryContent)) {
-            return DictFactory::getIdByDictId($factoryContent);
+        $factoryContent = preg_replace('!(?:\xc2\xa0|[\pZ\s]++)++!', ' ', $factoryContent);
+        if (strlen(trim($factoryContent)) < 5) {
+            return DictFactory::getIdByDictId(preg_replace('~[^0-9]+~', '', $factoryContent));
         }
 
         return DictFactory::getIdByName($factoryContent);

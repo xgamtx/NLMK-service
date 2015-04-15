@@ -80,6 +80,9 @@ class WheelSet extends ActiveRecord
     }
 
     public function getWeight() {
+        if ($this->carriage_id == 55247621) {
+            $zz = 1;
+        }
         return $this->getPartInfo()->weight;
     }
 

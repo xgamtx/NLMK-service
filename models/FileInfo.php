@@ -41,7 +41,7 @@ class FileInfo extends ActiveRecord
             [['name', 'author'], 'required'],
             [['author'], 'integer'],
             [['date_create'], 'safe'],
-            [['name'], 'string', 'max' => 40]
+            [['name'], 'string', 'max' => 240]
         ];
     }
 
@@ -65,7 +65,13 @@ class FileInfo extends ActiveRecord
 
         if (file_exists($this->name)) {
             //todo обработать случай другого excel
-            $objReader = \PHPExcel_IOFactory::createReader('Excel5');
+            $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
+            if (!$objReader->canRead($this->name)) {
+                $objReader = \PHPExcel_IOFactory::createReader('Excel5');
+                if (!$objReader->canRead($this->name)) {
+                    return false;
+                }
+            }
             $this->file = $objReader->load($this->name);
             return true;
         }
@@ -79,7 +85,8 @@ class FileInfo extends ActiveRecord
 
         $activeTable = $this->file->getActiveSheet()->toArray(null,true,true,true);
         if ((preg_match('/Опись номерных деталей  вагона №(.*)./', $activeTable[4]['B'], $matches)) ||
-            preg_match('/Акт технического состояния грузового вагона № (.*)/', $activeTable[1]['A'], $matches)) {
+            preg_match('/Акт технического состояния грузового вагона № (.*)/', $activeTable[1]['A'], $matches) ||
+            preg_match('/Опись номерных деталей  вагона №([0-9]*)./', $activeTable[1]['B'], $matches)) {
             return self::DETAIL_FILE_TYPE;
         } else {
             return self::COMMON_FILE_TYPE;

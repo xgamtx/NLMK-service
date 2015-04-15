@@ -43,9 +43,17 @@ class WheelSetExtracter extends BaseDetailExtracter {
             foreach ($assoc as $field => $columnCode) {
                 if ($field == 'factory') {
                     $wheelSet->factory = $this->extractFactoryId(trim($activeTable[$i][$columnCode]));
+                } elseif (in_array($field, array('left_wheel_width', 'right_wheel_width'))) {
+                    $wheelSet->{$field} = preg_replace('~[^0-9]+~', '', $activeTable[$i][$columnCode]);
                 } else {
                     $wheelSet->{$field} = trim($activeTable[$i][$columnCode]);
                 }
+            }
+            if ((int)$wheelSet->left_wheel_width > 100) {
+                $wheelSet->left_wheel_width = $wheelSet->left_wheel_width / 10;
+            }
+            if ((int)$wheelSet->right_wheel_width > 100) {
+                $wheelSet->right_wheel_width = $wheelSet->right_wheel_width / 10;
             }
             $wheelSet->carriage_id = $carriageId;
             $wheelSetList[] = $wheelSet;
