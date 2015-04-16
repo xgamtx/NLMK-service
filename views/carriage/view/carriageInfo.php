@@ -235,24 +235,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]) ?>
-
-    <div><?= !empty($model->im1) ?
-        "<a href='/web/{$model->im1}' target='_blank'>Изображение1</a>" :
-        $this->render('//carriage/_uploadCommonFileForm', [
-            'model' => $model,
-            'url' => 'carriage/save-image',
-            'imageModel' => new UploadImage(),
-            'propertyName' => 'im1'
-        ]); ?></div>
-
-    <div><?= !empty($model->im2) ?
-        "<a href='/web/{$model->im2}' target='_blank'>Изображение2</a>" :
-        $this->render('//carriage/_uploadCommonFileForm', [
-            'model' => $model,
-            'url' => 'carriage/save-image',
-            'imageModel' => new UploadImage(),
-            'propertyName' => 'im2'
-        ]); ?></div>
     <div>
         <?= $this->render('//log/_index', [
             'models' => $model->getLogs()->all(),
