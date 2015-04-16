@@ -51,6 +51,7 @@ class CarriageController extends Controller
     {
         $searchModel = new CarriageSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->pagination->pageSize = 50;
         $statusList = CarriageStatus::getAllStatus();
 
         return $this->render('index', [
