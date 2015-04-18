@@ -92,7 +92,6 @@ use dosamigos\datepicker\DatePicker;
     <div class="modal-dialog" style="background: #fff">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h2>Выберите файл для загрузки</h2>
             <?= $this->render(
                 '//xls/_uploadFile',
                 array('model' => new \app\models\UploadForm())

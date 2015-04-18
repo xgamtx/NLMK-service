@@ -16,6 +16,8 @@ use yii\db\ActiveRecord;
  */
 class DictFactory extends ActiveRecord
 {
+    /** @var DictFactory[] */
+    protected static $cache;
     /**
      * @inheritdoc
      */
@@ -55,6 +57,14 @@ class DictFactory extends ActiveRecord
         foreach ($factoryList as $factory) {
             $factory->save();
         }
+    }
+
+    protected static function initCache() {
+        /** @var DictFactory[] $cache */
+        $cache = DictFactory::find()->all();
+        foreach ($cache as $factoryInfo) {
+            self::$cache[$factoryInfo->id] = $factoryInfo;
+        }
 
     }
 
@@ -89,5 +99,16 @@ class DictFactory extends ActiveRecord
             $factory->save();
             return $factory->id;
         }
+    }
+
+    /**
+     * @param int $factoryId
+     * @return DictFactory
+     */
+    public static function getFactoryById($factoryId) {
+        if (empty(self::$cache)) {
+            self::initCache();
+        }
+        return self::$cache[$factoryId];
     }
 }

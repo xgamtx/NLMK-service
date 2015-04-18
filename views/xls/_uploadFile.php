@@ -6,7 +6,7 @@ $form = ActiveForm::begin([
     'action' => ['xls/upload']
 ]);
 ?>
-
+    <h2>Выберите файл для загрузки</h2>
 <?= $form->field($model, 'file[]')->fileInput(['multiple' => true]) ?>
 
     <button>Загрузить</button>

@@ -89,13 +89,13 @@ class WheelSet extends ActiveRecord
 
     public function getFactoryName() {
         /** @var DictFactory $factory */
-        $factory = DictFactory::findOne($this->factory);
+        $factory = DictFactory::getFactoryById($this->factory);
         return $factory->short_name;
     }
 
     public function getFactoryDictId() {
         /** @var DictFactory $factory */
-        $factory = DictFactory::findOne($this->factory);
+        $factory = DictFactory::getFactoryById($this->factory);
         return $factory->dict_id;
     }
 

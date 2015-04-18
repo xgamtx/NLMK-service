@@ -39,6 +39,7 @@ AppAsset::register($this);
                     ['label' => 'Вагоны', 'url' => ['/carriage/index']],
                     ['label' => 'Отчеты', 'url' => ['/site/about']],
                     ['label' => 'Библиотека', 'url' => ['/dict-factory/index']],
+                    ['label' => 'Загрузка', 'url' => ['/xls/upload']],
                     Yii::$app->user->isGuest ?
                         ['label' => 'Авторизация', 'url' => ['/site/login']] :
                         ['label' => 'Выход (' . Yii::$app->user->identity->username . ')',
