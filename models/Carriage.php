@@ -32,6 +32,7 @@ use yii\db\ActiveRecord;
  * @property string $inventory_image
  * @property string $comment
  * @property int $warehouse_id
+ * @property float $full_price
  *
  * @property Bolster[] $bolsters
  * @property Comment[] $comments
@@ -68,7 +69,7 @@ class Carriage extends ActiveRecord
         return [
             [['id'], 'required'],
             [['id', 'status', 'storage', 'warehouse_id', 'act_number', 'act_number_2'], 'integer'],
-            [['brutto_weight', 'weight_auto', 'weight_z_d'], 'number'],
+            [['brutto_weight', 'weight_auto', 'weight_z_d', 'full_price'], 'number'],
             [['carriage_type', 'datetime_arrived'], 'string', 'max' => 20],
             [['im1', 'im2', 'comment', 'inventory_image'], 'string', 'max' => 120],
             [['act_image', 'destroy_letter', 'expulsion_act_image'], 'string', 'max' => 150],

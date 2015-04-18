@@ -90,6 +90,7 @@ class Mh1 extends BaseAct {
             '{side_frame_3_factory_year}' => $sideFrames[2]->produced_year,
             '{side_frame_4_factory_year}' => $sideFrames[3]->produced_year,
             '{act_number2}' => $carriage->act_number_2,
+            '{carriage_price}' => $carriage->full_price,
         );
     }
 }

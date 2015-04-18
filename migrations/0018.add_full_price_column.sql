@@ -1,0 +1,1 @@
+alter table nlmkService.carriage add column full_price float;

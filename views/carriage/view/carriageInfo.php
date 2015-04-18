@@ -88,10 +88,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]),
             ],
             [
-                'label' => 'Стоимость ',
-                'value' => ''
-            ],
-            [
+                'label' => 'Стоимость',
+                'format' => 'raw',
+                'attribute' =>'full_price',
+                'value' => $this->render('//carriage/_setValueForm', [
+                    'model' => $model,
+                    'propertyName' => 'full_price',
+                    'propertyLabel' => 'Стоимость',
+                    'url' => 'carriage/update',
+                    'currentValue' => $model->full_price
+                ]),
+            ],[
                 'label' => 'ПЗУ',
                 'format' => 'raw',
                 'attribute' =>'storage',
