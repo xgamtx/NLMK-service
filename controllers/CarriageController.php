@@ -11,6 +11,7 @@ use app\models\CarriageStatus;
 use app\models\DateConverter;
 use app\models\LogProvider;
 use app\models\UploadCarriagePhoto;
+use app\models\Warehouse;
 use Yii;
 use app\models\Carriage;
 use app\models\CarriageSearch;
@@ -53,11 +54,12 @@ class CarriageController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $dataProvider->pagination->pageSize = 50;
         $statusList = CarriageStatus::getAllStatus();
-
+        $storageList = Warehouse::getWarehouseList();
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'statusList' => $statusList
+            'statusList' => $statusList,
+            'storageList' => $storageList
         ]);
     }
 

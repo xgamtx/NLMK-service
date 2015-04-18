@@ -24,7 +24,11 @@ class DateConverter {
         if (empty($readableDate)) {
             return $readableDate;
         }
-        $extractedDate = new \DateTime($readableDate);
+        try {
+            $extractedDate = new \DateTime($readableDate);
+        } catch (\Exception $e) {
+            return null;
+        }
         return $extractedDate->format('Y-m-d');
     }
 

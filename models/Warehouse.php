@@ -61,12 +61,23 @@ class Warehouse extends ActiveRecord {
 
     public static function getIdByName($warehouseName) {
         $warehouse = Warehouse::find()->where(array('name' => $warehouseName))->one();
-        if (empty($warehouse)) {
+        if (empty($warehouse) && $warehouseName) {
             $warehouse = new Warehouse();
             $warehouse->name = $warehouseName;
             $warehouse->save();
         }
         return $warehouse->id;
+    }
+
+    public static function getWarehouseList() {
+        $warehouseList = Warehouse::find()->all();
+        $result = array();
+        /** @var Warehouse $warehouse */
+        foreach ($warehouseList as $warehouse) {
+            $result[$warehouse->id] = $warehouse->name;
+        }
+        self::$warehouseNameList = $result;
+        return array('' => 'Все') + $result;
     }
 
 }

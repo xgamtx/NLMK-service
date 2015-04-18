@@ -101,7 +101,7 @@ a.desc:after {
 }
 
 .control-panel .control-input {
-    width: 145px
+    width: 100px
 }
 
 .defis {
@@ -140,4 +140,13 @@ a.desc:after {
 
 .footer-inventory td {
     padding: 10px;
+}
+
+#carriage-index td, #carriage-index th {
+    font-size: 12px;
+    padding: 2px;
+}
+
+.select-list {
+    width: 115px;
 }

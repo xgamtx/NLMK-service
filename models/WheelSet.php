@@ -80,7 +80,11 @@ class WheelSet extends ActiveRecord
     }
 
     public function getWeight() {
-        return $this->getPartInfo()->weight;
+        $partInfo = $this->getPartInfo();
+        if (!$partInfo) {
+            return 0;
+        }
+        return $partInfo->weight;
     }
 
     public function getFactoryName() {
@@ -103,7 +107,7 @@ class WheelSet extends ActiveRecord
      * @return CarriagePart
      */
     public function getPartInfo() {
-        return CarriagePart::find()->where(array('feature' => $this->getMinWidth(), 'part_type' => CarriagePart::WHEELSET_TYPE))->one();
+        return CarriagePart::getPartInfo($this->getMinWidth(), CarriagePart::WHEELSET_TYPE);
     }
 
     public function getWheelSetType() {

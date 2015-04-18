@@ -72,7 +72,11 @@ class SideFrame extends ActiveRecord
     }
 
     public function getWeight() {
-        return $this->getPartInfo()->weight;
+        $partInfo = $this->getPartInfo();
+        if (!$partInfo) {
+            return 0;
+        }
+        return $partInfo->weight;
     }
 
     public function getFactoryName() {
@@ -91,7 +95,7 @@ class SideFrame extends ActiveRecord
      * @return CarriagePart
      */
     public function getPartInfo() {
-        return CarriagePart::find()->where(array('feature' => $this->produced_year, 'part_type' => CarriagePart::SIDE_FRAME_TYPE))->one();
+        return CarriagePart::getPartInfo($this->produced_year, CarriagePart::SIDE_FRAME_TYPE);
     }
 
 }

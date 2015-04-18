@@ -22,6 +22,9 @@ class CarriagePart extends ActiveRecord
     const BOLSTER_TYPE = 1;
     const SIDE_FRAME_TYPE = 2;
 
+    /** @var CarriagePart[][] */
+    protected static $carriagePart;
+
     /**
      * @inheritdoc
      */
@@ -57,6 +60,17 @@ class CarriagePart extends ActiveRecord
             'price' => 'Price',
             'weight' => 'Вес',
         ];
+    }
+
+    public static function getPartInfo($feature, $type) {
+        if (empty(self::$carriagePart)) {
+            /** @var CarriagePart[] $carriagePartList */
+            $carriagePartList = static::find()->all();
+            foreach ($carriagePartList as $carriagePart) {
+                self::$carriagePart[$carriagePart->part_type][$carriagePart->feature] = $carriagePart;
+            }
+        }
+        return isset(self::$carriagePart[$type][$feature]) ? self::$carriagePart[$type][$feature] : null;
     }
 
 }

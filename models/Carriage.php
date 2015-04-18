@@ -31,6 +31,7 @@ use yii\db\ActiveRecord;
  * @property string $arrive_date
  * @property string $inventory_image
  * @property string $comment
+ * @property int $warehouse_id
  *
  * @property Bolster[] $bolsters
  * @property Comment[] $comments
@@ -38,7 +39,6 @@ use yii\db\ActiveRecord;
  * @property WheelSet[] $wheelsets
  * @property CarriagePhoto[] $carriagePhotos
  * @property Log[] $logs
- * @property Warehouse $warehouse_id
  */
 class Carriage extends ActiveRecord
 {

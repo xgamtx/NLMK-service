@@ -2,12 +2,14 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use app\models\CarriageStatus;
+//use app\models\CarriageStatus;
+use dosamigos\datepicker\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\CarriageSearch */
 /* @var $form yii\widgets\ActiveForm */
 /* @var $statusList string[] */
+/* @var $storageList string[] */
 ?>
 
 <div class="control-panel">
@@ -23,7 +25,10 @@ use app\models\CarriageStatus;
         'action' => ['index'],
         'method' => 'get',
     ]); ?>
-    <div class="dropdown control-button">
+    <?= Html::submitButton('Найти', ['class' => 'btn btn-primary control-button']) ?>
+    <?= Html::a('Показать все', '/web/carriage/index', ['class' => 'btn btn-primary control-button']) ?>
+    <?= Html::a('Сформировать отчет', null, ['class' => 'btn btn-primary control-button']) ?>
+    <? /* <div class="dropdown control-button">
         <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
                 aria-expanded="true">
             Действия
@@ -37,20 +42,48 @@ use app\models\CarriageStatus;
             <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="return setCarriageStage(<?= CarriageStatus::DESTROYED; ?>)">Демонтирован</a></li>
             <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="return setCarriageStage(<?= CarriageStatus::ARCHIVE; ?>)">Архив</a></li>
         </ul>
-    </div>
+    </div> */ ?>
     <a href="#modal" role="button" class="btn btn-primary control-button" data-toggle="modal">Добавить</a>
-    <?= Html::submitButton('Найти', ['class' => 'btn btn-primary control-button']) ?>
-    <?= Html::a('Показать все', '/web/carriage/index', ['class' => 'btn btn-primary control-button']) ?>
     <div class="gluh"></div>
-    <div class="input-group control-input"><?= Html::activeTextInput($model, 'id', ['class' => 'form-control', 'placeholder' => 'Номер вагона']);?></div>
-    <div class="input-group control-input"><?= Html::activeTextInput($model, 'carriage_type', ['class' => 'form-control', 'placeholder' => 'Тип вагона']);?></div>
-    <div class="input-group control-input"><?= Html::activeTextInput($model, 'storage', ['class' => 'form-control', 'placeholder' => 'ПЗУ']);?></div>
     <div class="dropdown control-button">
-        <?= Html::activeDropDownList($model, 'status', $statusList, ['class' => "form-control"]);?>
+        <?= Html::activeDropDownList($model, 'status', $statusList, ['class' => "form-control input-xs select-list"]);?>
     </div>
-    <div class="input-group control-input"><input type="text" class="form-control" placeholder="Склад"></div>
-    <div class="input-group control-input"><input type="text" class="form-control" placeholder="Прибыл с "></div>
-    <div class="input-group control-input"><input type="text" class="form-control" placeholder="Прибыл по"></div>
+    <div class="input-group control-input"><?= Html::activeTextInput($model, 'id', ['class' => 'form-control input-xs', 'placeholder' => 'Номер вагона']);?></div>
+    <div class="input-group control-input"><?= Html::activeTextInput($model, 'carriage_type', ['class' => 'form-control input-xs', 'placeholder' => 'Тип вагона']);?></div>
+    <div class="dropdown control-button">
+        <?= Html::activeDropDownList($model, 'storage', $storageList, ['class' => "form-control input-xs select-list"]);?>
+    </div>
+    <div class="dropdown control-button">
+        <?= Html::activeDropDownList($model, 'warehouse_id', $storageList, ['class' => "form-control input-xs select-list"]);?>
+    </div>
+    <?= DatePicker::widget([
+        'model' => $model,
+        'attribute' => 'arrived_date_from',
+        'language' => 'ru',
+        'containerOptions' => [
+            'class' => 'date-picker control-button',
+        ],
+        'clientOptions' => [
+            'autoclose' => true,
+        ],
+        'options' => [
+            'placeholder' => 'Дата прибытия'
+        ]
+    ]);?>
+    <?= DatePicker::widget([
+        'model' => $model,
+        'attribute' => 'arrived_date_till',
+        'language' => 'ru',
+        'containerOptions' => [
+            'class' => 'date-picker control-button',
+        ],
+        'clientOptions' => [
+            'autoclose' => true,
+        ],
+        'options' => [
+            'placeholder' => 'Дата прибытия'
+        ]
+    ]);?>
     <div class="gluh"></div>
     <?php ActiveForm::end(); ?>
 </div>

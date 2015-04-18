@@ -11,15 +11,21 @@ use yii\data\ActiveDataProvider;
  */
 class CarriageSearch extends Carriage
 {
+
+    const MIN_DATE = '0000-00-00';
+    const MAX_DATE = '3000-00-00';
+    public $arrived_date_from;
+    public $arrived_date_till;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'status'], 'integer'],
-            [['carriage_type', 'storage'], 'safe'],
+            [['id', 'status', 'warehouse_id', 'storage'], 'integer'],
+            [['carriage_type'], 'safe'],
             [['brutto_weight'], 'number'],
+            [['arrived_date_from', 'arrived_date_till'], 'date', 'format' => 'd.m.Y'],
         ];
     }
 
@@ -72,16 +78,18 @@ class CarriageSearch extends Carriage
                 'storage',
                 'brutto_weight',
                 'netto_mass'=>[
-                    'asc'=>['netto_mass'=>SORT_ASC],
-                    'desc'=>['netto_mass'=>SORT_DESC],
+                    'asc'=>['netto_mass' => SORT_ASC],
+                    'desc'=>['netto_mass' => SORT_DESC],
                     'label'=>'Order Name'
                 ],
                 'scrap_metal'=>[
-                    'asc'=>['scrap_metal'=>SORT_ASC],
-                    'desc'=>['scrap_metal'=>SORT_DESC],
+                    'asc'=>['scrap_metal' => SORT_ASC],
+                    'desc'=>['scrap_metal' => SORT_DESC],
                     'label'=>'Order Name'
                 ],
-                'status'
+                'status',
+                'warehouse_id',
+                'datetime_arrived'
             ]
         ]);
 
@@ -89,7 +97,7 @@ class CarriageSearch extends Carriage
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to any records when validation fails
-            // $query->where('0=1');
+             $query->where('0=1');
             return $dataProvider;
         }
 
@@ -97,10 +105,20 @@ class CarriageSearch extends Carriage
             'id' => $this->id,
             'brutto_weight' => $this->brutto_weight,
             'status' => $this->status,
+            'warehouse_id', $this->warehouse_id,
+            'storage', $this->storage,
         ]);
 
         $query->andFilterWhere(['like', 'carriage_type', $this->carriage_type]);
         $query->andFilterWhere(['like', 'storage', $this->storage]);
+        $query->andFilterWhere(['like', 'warehouse_id', $this->warehouse_id]);
+        $arrivedDateFrom = DateConverter::convertToDb($this->arrived_date_from);
+        $arrivedDateFrom = !empty($arrivedDateFrom) ? $arrivedDateFrom: self::MIN_DATE;
+        $arrivedDateTill = DateConverter::convertToDb($this->arrived_date_till);
+        $arrivedDateTill = !empty($arrivedDateTill) ? $arrivedDateTill: self::MAX_DATE;
+        if (($arrivedDateFrom != self::MIN_DATE) && ($arrivedDateTill != self::MAX_DATE)) {
+            $query->andFilterWhere(['between', 'arrive_date', $arrivedDateFrom, $arrivedDateTill]);
+        }
 
         return $dataProvider;
     }
